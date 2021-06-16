@@ -80,7 +80,6 @@
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>dinput8.def</ModuleDefinitionFile>
-      <OutputFile>C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest\dinput8.dll</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
