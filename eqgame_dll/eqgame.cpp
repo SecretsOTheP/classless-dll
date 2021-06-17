@@ -1019,237 +1019,237 @@ void InitHooks()
 
 	   EzDetour((DWORD)var, HandleWorldMessage_Detour, HandleWorldMessage_Trampoline);
 
-	   // DWORD var = (((DWORD)CXWndActivateAddr - 0x400000) + baseAddress);
+	  // // DWORD var = (((DWORD)CXWndActivateAddr - 0x400000) + baseAddress);
 
-	   // return_ActivateDet = (Activate_t)DetourFunction((PBYTE)var, (PBYTE)CXWndActivateHook); // Almost all non-classic windows have been disabled.
+	  // // return_ActivateDet = (Activate_t)DetourFunction((PBYTE)var, (PBYTE)CXWndActivateHook); // Almost all non-classic windows have been disabled.
 
-	   var = ((0x00507b30 - 0x400000) + baseAddress);
-	   return_SetCCreateCameraDet =
-		   (SetCCreateCamera_t)DetourFunction((PBYTE)var, (PBYTE)SetCCreateCameraHook);
-	   var = (((DWORD)0x009C8C2C - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "relic\x00", 6); // Use load instead of "CLZ"
+	  // var = ((0x00507b30 - 0x400000) + baseAddress);
+	  // return_SetCCreateCameraDet =
+		 //  (SetCCreateCamera_t)DetourFunction((PBYTE)var, (PBYTE)SetCCreateCameraHook);
+	  // var = (((DWORD)0x009C8C2C - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "relic\x00", 6); // Use load instead of "CLZ"
 
 
-	   //basedata as spell CRC begin
-	   var = (((DWORD)0x00AA6980 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "spells_us.txt", 13);
+	  // //basedata as spell CRC begin
+	  // var = (((DWORD)0x00AA6980 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "spells_us.txt", 13);
 
-	   DWORD varToPatch = (((DWORD)0x00AA6980 - 0x400000) + baseAddress);
-	   var = (((DWORD)0x004EEAAB - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (void*)&varToPatch, 4);
-	   //basedata as spell CRC end
+	  // DWORD varToPatch = (((DWORD)0x00AA6980 - 0x400000) + baseAddress);
+	  // var = (((DWORD)0x004EEAAB - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, (void*)&varToPatch, 4);
+	  // //basedata as spell CRC end
 
 
-	   var = (((DWORD)0x0044410C - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Remove heroic Stamina
+	  // var = (((DWORD)0x0044410C - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Remove heroic Stamina
 
-	   var = (((DWORD)0x00442B36 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Remove heroic int
-	   var = (((DWORD)0x00442BB6 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Remove heroic wis
+	  // var = (((DWORD)0x00442B36 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Remove heroic int
+	  // var = (((DWORD)0x00442BB6 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Remove heroic wis
 
-	   //#pragma comment(lib, "Iphlpapi.lib")
+	  // //#pragma comment(lib, "Iphlpapi.lib")
 
-	   var = (((DWORD)0x004538AE - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xEB",
-		   3); // Fix Max HP setting
-	   //0065CC71
-	   var = (((DWORD)0x0065CC09 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\x90\x90",
-		   4); // Fix tradeskill containers
+	  // var = (((DWORD)0x004538AE - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\xEB",
+		 //  3); // Fix Max HP setting
+	  // //0065CC71
+	  // var = (((DWORD)0x0065CC09 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\x90\x90",
+		 //  4); // Fix tradeskill containers
 
-	   DWORD varArray = (((DWORD)0x009BFF6D - 0x400000) + baseAddress);
+	  // DWORD varArray = (((DWORD)0x009BFF6D - 0x400000) + baseAddress);
 
-	   var = (((DWORD)0x004ED03B - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x4C", 1); // Link stuff
-	   var = (((DWORD)0x004ED051 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&varArray, 4); // Link stuff
-	   var = (((DWORD)0x004ED072 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&varArray, 4); // Link stuff
-	   var = (((DWORD)0x007BBC9A - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&varArray, 4); // Link stuff
-	   var = (((DWORD)0x007BBD77 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&varArray, 4); // Link stuff
+	  // var = (((DWORD)0x004ED03B - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x4C", 1); // Link stuff
+	  // var = (((DWORD)0x004ED051 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, (DWORD*)&varArray, 4); // Link stuff
+	  // var = (((DWORD)0x004ED072 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, (DWORD*)&varArray, 4); // Link stuff
+	  // var = (((DWORD)0x007BBC9A - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, (DWORD*)&varArray, 4); // Link stuff
+	  // var = (((DWORD)0x007BBD77 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, (DWORD*)&varArray, 4); // Link stuff
 
-	   var = (((DWORD)0x009BFF6D - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x25\x30\x38\x58", 4); // Link stuff
+	  // var = (((DWORD)0x009BFF6D - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x25\x30\x38\x58", 4); // Link stuff
 
-	   var = (((DWORD)0x00A1ACE0 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x4F", 1); // Link stuff
+	  // var = (((DWORD)0x00A1ACE0 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x4F", 1); // Link stuff
 
-	   var = (((DWORD)0x004ED062 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x08", 1); // Fix current HP cap
+	  // var = (((DWORD)0x004ED062 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x08", 1); // Fix current HP cap
 
-	   var = (((DWORD)0x004ED083 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x08", 1); // Fix current HP cap
+	  // var = (((DWORD)0x004ED083 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x08", 1); // Fix current HP cap
 
-	   var = (((DWORD)0x0063C36F - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\x90\x90", 4); // Bazaar trader anywhere
+	  // var = (((DWORD)0x0063C36F - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\x90\x90", 4); // Bazaar trader anywhere
 
-	   var = (((DWORD)0x0063978E - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Bazaar trader anywhere
+	  // var = (((DWORD)0x0063978E - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Bazaar trader anywhere
 
-	   var = (((DWORD)0x006AB6AF - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xE9\xA5\x00", 5); // nop / jmp dmg bonus
+	  // var = (((DWORD)0x006AB6AF - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\xE9\xA5\x00", 5); // nop / jmp dmg bonus
 
-	   var = (((DWORD)0x006AB6B6 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90", 1); // nop / jmp dmg bonus
+	  // var = (((DWORD)0x006AB6B6 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90", 1); // nop / jmp dmg bonus
 
-	   var = (((DWORD)0x00632DE6 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90", 2); // nop trader check
+	  // var = (((DWORD)0x00632DE6 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90", 2); // nop trader check
 
-	   var = (((DWORD)0x00632DDF - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90", 2); // nop trader check
+	  // var = (((DWORD)0x00632DDF - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90", 2); // nop trader check
 
-	   var = (((DWORD)0x00632DF6 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90", 2); // nop trader check
+	  // var = (((DWORD)0x00632DF6 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90", 2); // nop trader check
 
-	   var = (((DWORD)0x00632E08 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90", 2); // nop trader check
+	  // var = (((DWORD)0x00632E08 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90", 2); // nop trader check
 
-	   var = (((DWORD)0x005FE751 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\xEB\x1C\x90\x90\x90", 5); // patchme req bypass
+	  // var = (((DWORD)0x005FE751 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\xEB\x1C\x90\x90\x90", 5); // patchme req bypass
 
-	   var = (((DWORD)0x006A3FB0 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xEB", 3); // nop / jmp dmg bonus #2
+	  // var = (((DWORD)0x006A3FB0 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\xEB", 3); // nop / jmp dmg bonus #2
 
-	   var = (((DWORD)0x0057F2C7 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\xBF\xFF\xFF\xFF\x0F\x90\x90\x90\xE9\xF4\x01\x00\x00\x90", 14); //patch stat cap to be 0x0FFFFFFF
+	  // var = (((DWORD)0x0057F2C7 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\xBF\xFF\xFF\xFF\x0F\x90\x90\x90\xE9\xF4\x01\x00\x00\x90", 14); //patch stat cap to be 0x0FFFFFFF
 
-	   var = (((DWORD)0x0069A3D1 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\xB8\x60\xEA\x00\x00\x90", 6); //reuse time hack, up to 1 minute
+	  // var = (((DWORD)0x0069A3D1 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\xB8\x60\xEA\x00\x00\x90", 6); //reuse time hack, up to 1 minute
 
 
-	   // Spells BEGIN
-	   //   var = (((DWORD)0x00433c24 - 0x400000) + baseAddress);
-	   //      PatchA((DWORD*)var, "\xB0\x01", 2);
+	  // // Spells BEGIN
+	  // //   var = (((DWORD)0x00433c24 - 0x400000) + baseAddress);
+	  // //      PatchA((DWORD*)var, "\xB0\x01", 2);
 
-	   // var = (((DWORD)0x00647562 - 0x400000) + baseAddress);
-	   //      PatchA((DWORD*)var, "\x10", 1);
+	  // // var = (((DWORD)0x00647562 - 0x400000) + baseAddress);
+	  // //      PatchA((DWORD*)var, "\x10", 1);
 
-	   // var = (((DWORD)0x006475F7 - 0x400000) + baseAddress);
-	   //      PatchA((DWORD*)var, "\x10", 1);
+	  // // var = (((DWORD)0x006475F7 - 0x400000) + baseAddress);
+	  // //      PatchA((DWORD*)var, "\x10", 1);
 
-	   // var = (((DWORD)0x00647853 - 0x400000) + baseAddress);
-	   //      PatchA((DWORD*)var, "\x10", 1);
+	  // // var = (((DWORD)0x00647853 - 0x400000) + baseAddress);
+	  // //      PatchA((DWORD*)var, "\x10", 1);
 
-	   // var = (((DWORD)0x00648051 - 0x400000) + baseAddress);
-	   //      PatchA((DWORD*)var, "\x10", 1);
+	  // // var = (((DWORD)0x00648051 - 0x400000) + baseAddress);
+	  // //      PatchA((DWORD*)var, "\x10", 1);
 
-	   // var = (((DWORD)0x006484A2 - 0x400000) + baseAddress);
-	   //      PatchA((DWORD*)var, "\x10", 1);
+	  // // var = (((DWORD)0x006484A2 - 0x400000) + baseAddress);
+	  // //      PatchA((DWORD*)var, "\x10", 1);
 
-	   // var = (((DWORD)0x00648DBC - 0x400000) + baseAddress);
-	   //      PatchA((DWORD*)var, "\x10", 1);
+	  // // var = (((DWORD)0x00648DBC - 0x400000) + baseAddress);
+	  // //      PatchA((DWORD*)var, "\x10", 1);
 
-	   // var = (((DWORD)0x00648F02 - 0x400000) + baseAddress);
-	   //      PatchA((DWORD*)var, "\x10", 1);
+	  // // var = (((DWORD)0x00648F02 - 0x400000) + baseAddress);
+	  // //      PatchA((DWORD*)var, "\x10", 1);
 
-	   // var = (((DWORD)0x00648F4E - 0x400000) + baseAddress);
-	   //      PatchA((DWORD*)var, "\x10", 1);
+	  // // var = (((DWORD)0x00648F4E - 0x400000) + baseAddress);
+	  // //      PatchA((DWORD*)var, "\x10", 1);
 
-	   // var = (((DWORD)0x00649149 - 0x400000) + baseAddress);
-	   //      PatchA((DWORD*)var, "\x10", 1);
+	  // // var = (((DWORD)0x00649149 - 0x400000) + baseAddress);
+	  // //      PatchA((DWORD*)var, "\x10", 1);
 
-	   // var = (((DWORD)0x0064920D - 0x400000) + baseAddress);
-	   //      PatchA((DWORD*)var, "\x10", 1);
+	  // // var = (((DWORD)0x0064920D - 0x400000) + baseAddress);
+	  // //      PatchA((DWORD*)var, "\x10", 1);
 
-	   var = (((DWORD)0x00444158 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90",
-		   12); // Fix max HP cap
+	  // var = (((DWORD)0x00444158 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90",
+		 //  12); // Fix max HP cap
 
-	   var = (((DWORD)0x0045F26E - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\xE9\xB3\x01\x00\x00\x90",
-		   11); // Disable regen ticks // maybe hp
+	  // var = (((DWORD)0x0045F26E - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\xE9\xB3\x01\x00\x00\x90",
+		 //  11); // Disable regen ticks // maybe hp
 
-	  var = (((DWORD)0x0045E376 - 0x400000) + baseAddress);
-	  PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90", 8); // No unconscious pls
+	  //var = (((DWORD)0x0045E376 - 0x400000) + baseAddress);
+	  //PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90", 8); // No unconscious pls
 
-	   var = (((DWORD)0x0045E381 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90", 8); // No unconscious pls
+	  // var = (((DWORD)0x0045E381 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90", 8); // No unconscious pls
 
-	   var = (((DWORD)0x00449E3B - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\xE9\x1B\x01\x00\x00\x90", 13); // HP fix - the real deal
+	  // var = (((DWORD)0x00449E3B - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\xE9\x1B\x01\x00\x00\x90", 13); // HP fix - the real deal
 
-	   var = (((DWORD)0x00449F62 - 0x400000) + baseAddress); // HP fix - the real deal
-	   PatchA((DWORD*)var, "\x90\x90", 2);
-	   var = (((DWORD)0x00449F64 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90",
-		   13); // Fix current HP cap
+	  // var = (((DWORD)0x00449F62 - 0x400000) + baseAddress); // HP fix - the real deal
+	  // PatchA((DWORD*)var, "\x90\x90", 2);
+	  // var = (((DWORD)0x00449F64 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90",
+		 //  13); // Fix current HP cap
 
-	   var = (((DWORD)0x00444308 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xEB\x64",
-		   4); // Fix current mana amounts
+	  // var = (((DWORD)0x00444308 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\xEB\x64",
+		 //  4); // Fix current mana amounts
 
-	   var = (((DWORD)0x00444198 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xEB\x64",
-		   4); // Fix current endur
+	  // var = (((DWORD)0x00444198 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\xEB\x64",
+		 //  4); // Fix current endur
 
-	   var = (((DWORD)0x0045AE9F - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xE9\x76\x03\x00\x00\x90",
-		   8); // Fix food/drink spam
+	  // var = (((DWORD)0x0045AE9F - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\xE9\x76\x03\x00\x00\x90",
+		 //  8); // Fix food/drink spam
 
-	   var = (((DWORD)0x0045385D - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90", 30); //hp damage in combat abilities fix
+	  // var = (((DWORD)0x0045385D - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90", 30); //hp damage in combat abilities fix
 
-	   var = (((DWORD)0x00409776 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
+	  // var = (((DWORD)0x00409776 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
 
-	   var = (((DWORD)0x00409793 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
+	  // var = (((DWORD)0x00409793 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
 
-	   var = (((DWORD)0x004097DC - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
+	  // var = (((DWORD)0x004097DC - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
 
-	   var = (((DWORD)0x00409882 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\xFB", 1); // Monk armor fix
+	  // var = (((DWORD)0x00409882 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\xFB", 1); // Monk armor fix
 
-	   var = (((DWORD)0x004098AD - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
+	  // var = (((DWORD)0x004098AD - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
 
-	   var = (((DWORD)0x00409953 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\xFB", 1); // Monk armor fix
+	  // var = (((DWORD)0x00409953 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\xFB", 1); // Monk armor fix
 
-	   var = (((DWORD)0x00409968 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
+	  // var = (((DWORD)0x00409968 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
 
-	  // var = (((DWORD)0x00443631 - 0x400000) + baseAddress);
-	  // PatchA((DWORD*)var, "\xB0\x01\x5E\xC2\x04\x00\x90", 7); // Group marker in a party of 2
+	  //// var = (((DWORD)0x00443631 - 0x400000) + baseAddress);
+	  //// PatchA((DWORD*)var, "\xB0\x01\x5E\xC2\x04\x00\x90", 7); // Group marker in a party of 2
 
-	   //var = (((DWORD)0x004972AC - 0x400000) + baseAddress);
-	   //PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90",
-		  //35); // Nop the gamma slider
+	  // //var = (((DWORD)0x004972AC - 0x400000) + baseAddress);
+	  // //PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90",
+		 // //35); // Nop the gamma slider
 
-	   //var = (((DWORD)0x00709AC1 - 0x400000) + baseAddress);
-	   //PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\xE9\xD0\x00\x90",
-		  // 10); // Nop the gamma slider
+	  // //var = (((DWORD)0x00709AC1 - 0x400000) + baseAddress);
+	  // //PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\xE9\xD0\x00\x90",
+		 // // 10); // Nop the gamma slider
 
-	   auto charToBreak = rand();
+	  // auto charToBreak = rand();
 
-	   var = (((DWORD)0x009DD250 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
+	  // var = (((DWORD)0x009DD250 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
 
-	   charToBreak = rand();
-	   var = (((DWORD)0x009DD254 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
+	  // charToBreak = rand();
+	  // var = (((DWORD)0x009DD254 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
 
-	   charToBreak = rand();
-	   var = (((DWORD)0x009DD258 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
+	  // charToBreak = rand();
+	  // var = (((DWORD)0x009DD258 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
 
-	   charToBreak = rand();
-	   var = (((DWORD)0x009DD25C - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
+	  // charToBreak = rand();
+	  // var = (((DWORD)0x009DD25C - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
 
-	   charToBreak = rand();
-	   var = (((DWORD)0x009DD260 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
-	   HMODULE hkernel32Mod = GetModuleHandle("kernel32.dll");
-	   DWORD gmfadress = (DWORD)GetProcAddress(hkernel32Mod, "GetModuleFileNameA");
-	   EzDetour(gmfadress, GetModuleFileNameA_detour, GetModuleFileNameA_tramp);
-	   HMODULE gdi32mod = GetModuleHandle("gdi32.dll");
-	   DWORD jmpToDeviceGamma = (DWORD)GetProcAddress(gdi32mod, "SetDeviceGammaRamp");
-	   EzDetour(jmpToDeviceGamma, SetDeviceGammaRamp_Hook, SetDeviceGammaRamp_Trampoline);
+	  // charToBreak = rand();
+	  // var = (((DWORD)0x009DD260 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
+	  // HMODULE hkernel32Mod = GetModuleHandle("kernel32.dll");
+	  // DWORD gmfadress = (DWORD)GetProcAddress(hkernel32Mod, "GetModuleFileNameA");
+	  // EzDetour(gmfadress, GetModuleFileNameA_detour, GetModuleFileNameA_tramp);
+	  // HMODULE gdi32mod = GetModuleHandle("gdi32.dll");
+	  // DWORD jmpToDeviceGamma = (DWORD)GetProcAddress(gdi32mod, "SetDeviceGammaRamp");
+	  // EzDetour(jmpToDeviceGamma, SetDeviceGammaRamp_Hook, SetDeviceGammaRamp_Trampoline);
 
 
 

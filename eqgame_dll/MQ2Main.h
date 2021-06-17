@@ -13,6 +13,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ******************************************************************************/
 
+
 #define VersionString "September 23, 2004"
 #define DebugHeader "[Edge]"
 #define LoadedString "Edge Extensions Loaded."
@@ -47,6 +48,12 @@ GNU General Public License for more details.
 #include <algorithm>
 #include <chrono>
 #include <random>
+#include <mutex>
+#include <functional>
+#include <xstring>
+#include <xutility>
+#include <pathcch.h>
+#include <string_view>
 using namespace std;
 
 #define PLUGIN_API 
@@ -232,6 +239,10 @@ typedef double DOUBLE;
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "D3dx9.lib")
 
+
+#include "ConfigUtils.h"
+#include "StringUtils.h"
+#include "MiscUtils.h"
 //class CXMLData *GetXMLData(class CXWnd *pWnd)
 
 #include "EQClasses.h"
@@ -323,6 +334,14 @@ EQLIB_API VOID PluginsEndZone(VOID);
 EQLIB_API VOID InitializeDisplayHook();
 EQLIB_API VOID ShutdownDisplayHook();
 EQLIB_API VOID DrawHUD();
+
+/*mq2 hide modules*/
+
+bool GetFilteredModules(HANDLE hProcess, HMODULE* hModule, DWORD cb, DWORD* lpcbNeeded,
+	const std::function<bool(HMODULE)>& filter);
+bool IsMacroQuestModule(HMODULE hModule, bool getMacroQuestModules = false);
+bool IsModuleSubstring(HMODULE hModule, std::wstring_view searchString);
+int ci_find_substr_w(std::wstring_view haystack, std::wstring_view needle);
 
 /* COMMAND HANDLING */
 LEGACY_API VOID InitializeMQ2Commands();

@@ -59,7 +59,7 @@ EQLIB_VAR DWORD ThreadID;
 EQLIB_VAR BOOL gStringTableFixed;
 EQLIB_VAR DWORD gMaxSpawnCaptions;
 EQLIB_VAR BOOL gMQCaptions;
-
+EQLIB_VAR DWORD __ModuleList;
 EQLIB_VAR HMODULE ghModule;
 EQLIB_VAR HINSTANCE ghInstance;
 EQLIB_VAR BOOL gbEQWLoaded;

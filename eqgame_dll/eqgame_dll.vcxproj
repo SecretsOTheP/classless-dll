@@ -68,15 +68,15 @@
       <CompileAs>CompileAsCpp</CompileAs>
       <ErrorReporting>Queue</ErrorReporting>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>..\detours\inc;..\dependencies\dx9\Include;..\dependencies\boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\detours\inc;..\dependencies\dx9\Include;..\dependencies\boost;..\dependencies\fmt\include</AdditionalIncludeDirectories>
       <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Detours\lib;..\dependencies\dx9\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Detours\lib;..\dependencies\dx9\Lib;..\dependencies\fmt\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>dinput8.def</ModuleDefinitionFile>
@@ -90,8 +90,8 @@
       <Optimization>Disabled</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;DINPUT8_EXPORTS;EQLIB_EXPORTS;DPSPLUGIN;WINDOWS_IGNORE_PACKING_MISMATCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\detours\inc;..\dependencies\dx9\Include;..\dependencies\boost</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;DINPUT8_EXPORTS;EQLIB_EXPORTS;DPSPLUGIN;WINDOWS_IGNORE_PACKING_MISMATCH;_HAS_STD_BYTE=0;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\detours\inc;..\dependencies\dx9\Include;..\dependencies\boost;..\dependencies\fmt\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <StringPooling>true</StringPooling>
       <ExceptionHandling />
@@ -99,7 +99,7 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <CompileAs>CompileAsCpp</CompileAs>
       <ErrorReporting>Queue</ErrorReporting>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <OmitFramePointers>false</OmitFramePointers>
@@ -111,7 +111,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <OptimizeReferences>false</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\Detours\lib;..\dependencies\dx9\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Detours\lib;..\dependencies\dx9\Lib;..\dependencies\fmt\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>dinput8.def</ModuleDefinitionFile>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
@@ -119,14 +119,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CXStr.cpp" />
+    <ClCompile Include="CXWnd.cpp" />
     <ClCompile Include="DetoursAPI.cpp" />
     <ClCompile Include="EQClasses.cpp" />
     <ClCompile Include="EQFunctionDetours.cpp" />
     <ClCompile Include="eqgame.cpp" />
     <ClCompile Include="EQUtils.cpp" />
+    <ClCompile Include="EverQuest.cpp" />
+    <ClCompile Include="ExceptionsDisabled.cpp" />
     <ClCompile Include="FloatingTextManager.cpp" />
     <ClCompile Include="FPSLimit.cpp" />
+    <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="Hooks.cpp" />
+    <ClCompile Include="HotKeys.cpp" />
     <ClCompile Include="IClassFactory.cpp" />
     <ClCompile Include="IDirectInput8A.cpp" />
     <ClCompile Include="IDirectInput8Hook.cpp" />
@@ -138,6 +145,8 @@
     <ClCompile Include="IDirectInputEnumDevice.cpp" />
     <ClCompile Include="IDirectInputEnumEffect.cpp" />
     <ClCompile Include="InterfaceQuery.cpp" />
+    <ClCompile Include="ItemLinks.cpp" />
+    <ClCompile Include="Items.cpp" />
     <ClCompile Include="MQ2AdvDps.cpp" />
     <ClCompile Include="MQ2ChatHook.cpp" />
     <ClCompile Include="MQ2CleanUI.cpp" />
@@ -164,8 +173,16 @@
     <ClCompile Include="MQ2Spawns.cpp" />
     <ClCompile Include="MQ2Utilities.cpp" />
     <ClCompile Include="MQ2Windows.cpp" />
+    <ClCompile Include="NamedPipes.cpp" />
+    <ClCompile Include="PcClient.cpp" />
+    <ClCompile Include="PcProfile.cpp" />
+    <ClCompile Include="Spells.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Text.cpp" />
+    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="UITemplates.cpp" />
+    <ClCompile Include="UITextures.cpp" />
+    <ClCompile Include="XMLData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
