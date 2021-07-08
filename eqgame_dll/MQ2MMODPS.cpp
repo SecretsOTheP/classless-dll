@@ -40,7 +40,7 @@ std::chrono::time_point<std::chrono::steady_clock> lastTimeStamp = std::chrono::
 
 CHAR          dpsWRITE[STRINGSIZE];             // DPS Output String!
 
-#define       pAction ((pEdgeDamage_Struct)Packet)
+#define       pAction ((pCombatDamage_Struct)Packet)
 #define       pCorpse ((pDeath_Struct)Packet)
 #define       pFormat ((pFormattedMessage_Struct)Packet)
 #define       pDeleteSpawn ((pDeleteSpawn_Struct)Packet)
@@ -250,7 +250,7 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 							killerentry = GetEdgeDPSEntryByID(killerMob->SpawnID);
 							if (verified)
 							{
-								if ((pAction->hitType & 4) == 0)
+								if ((pAction->type & 4) == 0)
 								{
 									entry.TotalIncomingDamage += (int64_t)pAction->damage;
 									killerentry.TotalOutgoingDamage += (int64_t)pAction->damage;
@@ -261,7 +261,7 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 									SetEdgeDPSEntryByID(entry.SpawnID, entry);
 									SetEdgeDPSEntryByID(killerentry.SpawnID, killerentry);
 								}
-								g_pFtm->AddDamageText(HaveTarget, pAction->damage, pAction->spellid, pAction->hitType);
+								g_pFtm->AddDamageText(HaveTarget, pAction->damage, pAction->spellid, pAction->type);
 							}
 						}
 #ifdef DPSDEBUG

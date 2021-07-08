@@ -222,7 +222,7 @@ public:
 
             sprintf (out, "<BR><c \"#%s\">Spell Info for %s effect: %s<br>", cColour, cName, pSpell->Name);
         }
-		if (pLocalPlayer && pLocalPlayer->Data.GM)
+		if (pLocalPlayer)
 		{
 			sprintf(temp, "ID: %04d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", pSpell->ID);
 			strcat(out, temp);
@@ -301,7 +301,7 @@ public:
 
         bool bUseableClasses = false; 
 
-		if (pLocalPlayer && pLocalPlayer->Data.GM)
+		if (pLocalPlayer)
 		{
 			strcat(out, "<br>");
 			for (int j = 0; j < 16; j++) {  // Ziggy - output will word wrap properly now
@@ -389,7 +389,7 @@ public:
                 }
             }
         }
-		if (pLocalPlayer && pLocalPlayer->Data.GM)
+		if (pLocalPlayer)
 		{
 			sprintf(temp, "ID: %04d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", pSpell->ID);
 			strcat(out, temp);
@@ -464,7 +464,7 @@ public:
         ShowSpellSlotInfo(pSpell,&out[strlen(out)]);
 
         //show usable classes routine by Koad//
-		if (pLocalPlayer && pLocalPlayer->Data.GM)
+		if (pLocalPlayer)
 		{
 			bool bUseableClasses = false;
 			strcat(out, "<br>");
@@ -540,7 +540,7 @@ public:
 		}
 		std::string tmp = string("<BR><c \"#00FFFF\">") + string(temp);
         strcpy(out,tmp.c_str());
-        if ( Item->ItemNumber > 0 && pLocalPlayer && pLocalPlayer->Data.GM) { 
+        if ( Item->ItemNumber > 0 && pLocalPlayer) { 
             sprintf(temp,"Item ID: %d<br>", Item->ItemNumber); 
             strcat(out, temp); 
         }
@@ -653,7 +653,7 @@ public:
             strcat(out,temp);
         }
 
-		if (Item->ItemNumber > 0 && pLocalPlayer && pLocalPlayer->Data.GM) {
+		if (Item->ItemNumber > 0 && pLocalPlayer) {
 			sprintf(temp, "%07d", Item->ItemNumber);
 		}
 

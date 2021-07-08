@@ -817,6 +817,22 @@ typedef struct EdgeDamage_Struct
 				uint8_t hitType;
 } EdgeDamage_Struct, *pEdgeDamage_Struct;
 
+//OP_Action
+typedef struct
+{
+	/* 00 */	uint16_t	target;
+	/* 02 */	uint16_t	source;
+	/* 04 */	uint8_t	type;			//slashing, etc.  231 (0xE7) for spells
+	/* 05 */	uint32_t	spellid;
+	/* 09 */	int32_t	damage;
+	/* 13 */	float	force;		// cd cc cc 3d
+	/* 17 */	float	hit_heading;		// see above notes in Action_Struct
+	/* 21 */	float	hit_pitch;
+	/* 25 */	uint8_t	secondary;	// 0 for primary hand, 1 for secondary
+	/* 26 */	uint32_t	special; // 2 = Rampage, 1 = Wild Rampage
+	/* 30 */
+} CombatDamage_Struct, *pCombatDamage_Struct;
+
 typedef struct Death_Struct
 {
 	/*000*/	DWORD	spawn_id;
@@ -835,7 +851,7 @@ typedef struct DeleteSpawn_Struct
 	/*004*/	BYTE	bDisappear;
 } DeleteSpawn_Struct, *pDeleteSpawn_Struct;
 
-#define OP_CombatAction 0x1337
+#define OP_CombatAction 0x744c
 #define OP_Death 0x6517
 #define OP_DeleteSpawn 0x7280
 
