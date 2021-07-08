@@ -146,8 +146,11 @@ public:
 
 	int SpellID;
 	unsigned __int64 LastTick;
+	unsigned __int64 InitialTick;
 	int32_t Damage;
 	uint8_t hitType;
+	bool actorID;
+	bool actorSourceID;
 	D3DXCOLOR fontColor;
 	float fontSizePct;
 	tweeny::tween<int> LocationTween;
@@ -170,7 +173,7 @@ public:
 
 	void Cleanup();
 
-	void AddDamageText(PSPAWNINFO actor, int32_t damage, int spellId, uint8_t hitType);
+	void AddDamageText(PSPAWNINFO actor, PSPAWNINFO sourceActor, int32_t damage, int spellId, uint8_t hitType);
 
 	D3DXCOLOR GetFontColorFromHitType(uint8_t nHitType);
 

@@ -86,17 +86,30 @@ EQ::Random randomNums;
 int zPosition = 0;
 
 extern bool addedTestText;
-void FloatingTextManager::AddDamageText(PSPAWNINFO actor, int32_t damage, int spellId, uint8_t nHitType)
+void FloatingTextManager::AddDamageText(PSPAWNINFO actor, PSPAWNINFO sourceActor, int32_t damage, int spellId, uint8_t nHitType)
 {
+	if (!actor || !sourceActor)
+		return;
+
+	for (auto objectInHud : HudObjects)
+	{
+		if (objectInHud->actorID == actor->SpawnID && objectInHud->SpellID == spellId && sourceActor->SpawnID == objectInHud->actorSourceID)
+		{
+			if (objectInHud->LastTick + 100 <= MQGetTickCount64())
+				return;
+		}
+	}
 
 	DamageText* tmp = new DamageText();
 
 	tmp->Damage = damage;
 	tmp->LastTick = MQGetTickCount64();
+	tmp->InitialTick = MQGetTickCount64();
 	tmp->SpellID = spellId;
 	tmp->hitType = nHitType;
 	bool isLocalActor = (PSPAWNINFO)pLocalPlayer == actor;
-	tmp->fontColor = isLocalActor ? D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f) : GetFontColorFromHitType(nHitType);
+	tmp->actorID = actor->SpawnID;
+	tmp->fontColor = GetFontColorFromHitType(nHitType);
 	tmp->fontSizePct = GetFontSizePctFromHitType(nHitType);
 	auto rOffsetX = 0.0f;
 	auto rOffsetY = 0.0f;

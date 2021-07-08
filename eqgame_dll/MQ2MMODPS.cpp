@@ -247,7 +247,7 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 
 							int32_t nDamage = pDamage->damage;
 							if (nDamage > 0)
-								g_pFtm->AddDamageText(HaveTarget, nDamage, pDamage->spellid, nType);
+								g_pFtm->AddDamageText(HaveTarget, killerMob ? killerMob : HaveTarget, nDamage, pDamage->spellid, nType);
 						}
 					}
 				}
@@ -373,7 +373,7 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 								}
 								if(nDamage > 0)
 								{
-									g_pFtm->AddDamageText(HaveTarget, nDamage, pAction->spell, nType);
+									g_pFtm->AddDamageText(HaveTarget, killerMob ? killerMob : HaveTarget, nDamage, pAction->spell, nType);
 								}
 							}
 						}
