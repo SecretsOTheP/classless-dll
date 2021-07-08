@@ -40,7 +40,8 @@ std::chrono::time_point<std::chrono::steady_clock> lastTimeStamp = std::chrono::
 
 CHAR          dpsWRITE[STRINGSIZE];             // DPS Output String!
 
-#define       pAction ((pCombatDamage_Struct)Packet)
+#define       pDamage ((pCombatDamage_Struct)Packet)
+#define       pAction ((pAction_Struct)Packet)
 #define       pCorpse ((pDeath_Struct)Packet)
 #define       pFormat ((pFormattedMessage_Struct)Packet)
 #define       pDeleteSpawn ((pDeleteSpawn_Struct)Packet)
@@ -153,130 +154,231 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 {
 	if (gGameState == GAMESTATE_INGAME && pCharSpawn && Activated())
 	{
-		if (Type == OP_CombatAction)
+		if (Type == OP_Damage)
 		{
 #ifdef DPSDEBUG
 			WriteChatf("OP_CombatAction");
 #endif
-			if (pAction->source == 0 && pAction->target == 0 && ClearAfterCombat)
+			bool verified = false;
+			if (SpawnMe()->SpawnID == pDamage->source)         verified = true;
+			else if (PetID() > 0 && PetID() == pDamage->source)  verified = true;
+			else if (PSPAWNINFO SourceID = GetSpawnID(pDamage->source))
 			{
-				DamageEntries.clear();
+				if (SourceID->MasterID > 0)
+				{
+					PSPAWNINFO MasterMob = GetSpawnID(SourceID->MasterID);
+					if (IsGroupMember(MasterMob))
+						verified = true;
+					else if (IsRaidMember(MasterMob))
+						verified = true;
+				}
+
+				if (SpawnMe()->SpawnID == SourceID->MasterID)
+					verified = true;
+				else if (IsGroupMember(SourceID))
+					verified = true;
+				else if (IsRaidMember(SourceID))
+					verified = true;
+			}
+			if (SpawnMe()->SpawnID == pDamage->target)         verified = true;
+			else if (PetID() > 0 && PetID() == pDamage->target)  verified = true;
+			else if (PSPAWNINFO SourceID = GetSpawnID(pDamage->target))
+			{
+				if (SourceID->MasterID > 0)
+				{
+					PSPAWNINFO MasterMob = GetSpawnID(SourceID->MasterID);
+					if (IsGroupMember(MasterMob))
+						verified = true;
+					else if (IsRaidMember(MasterMob))
+						verified = true;
+				}
+
+				if (SpawnMe()->SpawnID == SourceID->MasterID)
+					verified = true;
+				else if (IsGroupMember(SourceID))
+					verified = true;
+				else if (IsRaidMember(SourceID))
+					verified = true;
 			}
 
-
-			if (pAction->damage > 0)
+			if (verified)
 			{
-				bool verified = false;
-				if (SpawnMe()->SpawnID == pAction->source)         verified = true;
-				else if (PetID() > 0 && PetID() == pAction->source)  verified = true;
-				else if (PSPAWNINFO SourceID = GetSpawnID(pAction->source))
+
+				EdgeDPSEntry entry;
+				memset(&entry, 0, sizeof(EdgeDPSEntry));
+
+				EdgeDPSEntry killerentry;
+				memset(&killerentry, 0, sizeof(EdgeDPSEntry));
+
+				auto HaveTarget = GetSpawnID(pDamage->target);
+				auto killerMob = GetSpawnID(pDamage->source);
+				if (HaveTarget)
 				{
-					if (SourceID->MasterID > 0)
+					int ibreak = 0;
+
+					while (HaveTarget && HaveTarget->MasterID != 0)
 					{
-						PSPAWNINFO MasterMob = GetSpawnID(SourceID->MasterID);
-						if (IsGroupMember(MasterMob))
-							verified = true;
-						else if (IsRaidMember(MasterMob))
-							verified = true;
+						if (ibreak > 5)
+							break;
+
+						ibreak++;
+						HaveTarget = GetSpawnID(HaveTarget->MasterID);
 					}
 
-					if (SpawnMe()->SpawnID == SourceID->MasterID)
-						verified = true;
-					else if (IsGroupMember(SourceID))
-						verified = true;
-					else if (IsRaidMember(SourceID))
-						verified = true;
-				}
-				if (SpawnMe()->SpawnID == pAction->target)         verified = true;
-				else if (PetID() > 0 && PetID() == pAction->target)  verified = true;
-				else if (PSPAWNINFO SourceID = GetSpawnID(pAction->target))
-				{
-					if (SourceID->MasterID > 0)
+					ibreak = 0;
+					while (killerMob && killerMob->MasterID != 0)
 					{
-						PSPAWNINFO MasterMob = GetSpawnID(SourceID->MasterID);
-						if (IsGroupMember(MasterMob))
-							verified = true;
-						else if (IsRaidMember(MasterMob))
-							verified = true;
+						if (ibreak > 5)
+							break;
+
+						ibreak++;
+						killerMob = GetSpawnID(killerMob->MasterID);
+
+
 					}
 
-					if (SpawnMe()->SpawnID == SourceID->MasterID)
+					if (killerMob && HaveTarget)
+					{
+						entry = GetEdgeDPSEntryByID(HaveTarget->SpawnID);
+						killerentry = GetEdgeDPSEntryByID(killerMob->SpawnID);
+						if (verified)
+						{
+							int nType = 0;
+
+							int32_t nDamage = pDamage->damage;
+							if (nDamage > 0)
+								g_pFtm->AddDamageText(HaveTarget, nDamage, pDamage->spellid, nType);
+						}
+					}
+				}
+			}
+		}
+		else if (Type == OP_CombatAction)
+		{
+#ifdef DPSDEBUG
+			WriteChatf("OP_CombatAction");
+#endif
+			bool verified = false;
+			if (SpawnMe()->SpawnID == pAction->source)         verified = true;
+			else if (PetID() > 0 && PetID() == pAction->source)  verified = true;
+			else if (PSPAWNINFO SourceID = GetSpawnID(pAction->source))
+			{
+				if (SourceID->MasterID > 0)
+				{
+					PSPAWNINFO MasterMob = GetSpawnID(SourceID->MasterID);
+					if (IsGroupMember(MasterMob))
 						verified = true;
-					else if (IsGroupMember(SourceID))
-						verified = true;
-					else if (IsRaidMember(SourceID))
+					else if (IsRaidMember(MasterMob))
 						verified = true;
 				}
 
-				if (verified)
+				if (SpawnMe()->SpawnID == SourceID->MasterID)
+					verified = true;
+				else if (IsGroupMember(SourceID))
+					verified = true;
+				else if (IsRaidMember(SourceID))
+					verified = true;
+			}
+			if (SpawnMe()->SpawnID == pAction->target)         verified = true;
+			else if (PetID() > 0 && PetID() == pAction->target)  verified = true;
+			else if (PSPAWNINFO SourceID = GetSpawnID(pAction->target))
+			{
+				if (SourceID->MasterID > 0)
 				{
+					PSPAWNINFO MasterMob = GetSpawnID(SourceID->MasterID);
+					if (IsGroupMember(MasterMob))
+						verified = true;
+					else if (IsRaidMember(MasterMob))
+						verified = true;
+				}
 
-					EdgeDPSEntry entry;
-					memset(&entry, 0, sizeof(EdgeDPSEntry));
+				if (SpawnMe()->SpawnID == SourceID->MasterID)
+					verified = true;
+				else if (IsGroupMember(SourceID))
+					verified = true;
+				else if (IsRaidMember(SourceID))
+					verified = true;
+			}
 
-					EdgeDPSEntry killerentry;
-					memset(&killerentry, 0, sizeof(EdgeDPSEntry));
+			if (verified)
+			{
 
-					auto HaveTarget = GetSpawnID(pAction->target);
-					auto killerMob = GetSpawnID(pAction->source);
-					if (HaveTarget)
+				EdgeDPSEntry entry;
+				memset(&entry, 0, sizeof(EdgeDPSEntry));
+
+				EdgeDPSEntry killerentry;
+				memset(&killerentry, 0, sizeof(EdgeDPSEntry));
+
+				auto HaveTarget = GetSpawnID(pAction->target);
+				auto killerMob = GetSpawnID(pAction->source);
+				if (HaveTarget)
+				{
+					int ibreak = 0;
+
+					while (HaveTarget && HaveTarget->MasterID != 0)
 					{
-						int ibreak = 0;
+						if (ibreak > 5)
+							break;
 
-						while (HaveTarget && HaveTarget->MasterID != 0)
+						ibreak++;
+						HaveTarget = GetSpawnID(HaveTarget->MasterID);
+					}
+
+					ibreak = 0;
+					while (killerMob && killerMob->MasterID != 0)
+					{
+						if (ibreak > 5)
+							break;
+
+						ibreak++;
+						killerMob = GetSpawnID(killerMob->MasterID);
+
+
+					}
+
+					if (killerMob && HaveTarget)
+					{
+						entry = GetEdgeDPSEntryByID(HaveTarget->SpawnID);
+						killerentry = GetEdgeDPSEntryByID(killerMob->SpawnID);
+						if (verified)
 						{
-							if (ibreak > 5)
-								break;
-
-							ibreak++;
-							HaveTarget = GetSpawnID(HaveTarget->MasterID);
-						}
-
-						ibreak = 0;
-						while (killerMob && killerMob->MasterID != 0)
-						{
-							if (ibreak > 5)
-								break;
-
-							ibreak++;
-							killerMob = GetSpawnID(killerMob->MasterID);
-
-
-						}
-
-						if (killerMob && HaveTarget)
-						{
-							entry = GetEdgeDPSEntryByID(HaveTarget->SpawnID);
-							killerentry = GetEdgeDPSEntryByID(killerMob->SpawnID);
-							if (verified)
+							if ((pAction->type & 4) == 0)
 							{
-								if ((pAction->type & 4) == 0)
+								//entry.TotalIncomingDamage += (int64_t)pAction->damage;
+								//killerentry.TotalOutgoingDamage += (int64_t)pAction->damage;
+								//if (!entry.InitialSpawnName[0])
+								//	strncpy_s(entry.InitialSpawnName, HaveTarget->DisplayedName, 64);
+								//if (!killerentry.InitialSpawnName[0])
+								//	strncpy_s(entry.InitialSpawnName, killerMob->DisplayedName, 64);
+								//SetEdgeDPSEntryByID(entry.SpawnID, entry);
+								//SetEdgeDPSEntryByID(killerentry.SpawnID, killerentry);
+							}
+
+							int nType = 0;
+
+							int32_t nDamage = 0;
+
+							auto spellAction = GetSpellByID(pAction->spell);
+							if (spellAction)
+							{
+								if (spellAction->SpellType > 0)
+									nType = 1;
+
+								for (int i = 0; i <= 11; i++)
 								{
-									entry.TotalIncomingDamage += (int64_t)pAction->damage;
-									killerentry.TotalOutgoingDamage += (int64_t)pAction->damage;
-									if (!entry.InitialSpawnName[0])
-										strncpy_s(entry.InitialSpawnName, HaveTarget->DisplayedName, 64);
-									if (!killerentry.InitialSpawnName[0])
-										strncpy_s(entry.InitialSpawnName, killerMob->DisplayedName, 64);
-									SetEdgeDPSEntryByID(entry.SpawnID, entry);
-									SetEdgeDPSEntryByID(killerentry.SpawnID, killerentry);
+									if (spellAction->Attrib[i] == 0)
+									{
+										nDamage += ReturnValueCalculate(spellAction, i, pAction->spell_level, 1);
+									}
 								}
-								g_pFtm->AddDamageText(HaveTarget, pAction->damage, pAction->spellid, pAction->type);
+								if(nDamage > 0)
+								{
+									g_pFtm->AddDamageText(HaveTarget, nDamage, pAction->spell, nType);
+								}
 							}
 						}
-#ifdef DPSDEBUG
-						WriteChatf("Added %d damage.", pAction->Damages);
-#endif
+					}
 
-					}
-#ifdef DPSDEBUG
-					else {
-						WriteChatf("SourceID: %d  TargetID: %d  AttackID: %d  Damages: %d  EffectID: %d", pAction->SourceID, pAction->TargetID, pAction->AttackID, pAction->Damages, pAction->EffectID);
-						WriteChatf("SpawnMe()->SpawnID = %d, pAction->SourceID = %d, PetID() = %d, GetSpawnID(pAction->SourceID) = %d",
-							SpawnMe()->SpawnID, pAction->SourceID, PetID(), GetSpawnID(pAction->SourceID));
-						WriteChatf("Verified = false (0)");
-					}
-#endif
 				}
 			}
 		}

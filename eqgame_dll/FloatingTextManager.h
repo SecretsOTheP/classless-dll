@@ -146,7 +146,7 @@ public:
 
 	int SpellID;
 	unsigned __int64 LastTick;
-	int Damage;
+	int32_t Damage;
 	uint8_t hitType;
 	D3DXCOLOR fontColor;
 	float fontSizePct;
@@ -170,7 +170,7 @@ public:
 
 	void Cleanup();
 
-	void AddDamageText(PSPAWNINFO actor, int damage, int spellId, uint8_t hitType);
+	void AddDamageText(PSPAWNINFO actor, int32_t damage, int spellId, uint8_t hitType);
 
 	D3DXCOLOR GetFontColorFromHitType(uint8_t nHitType);
 

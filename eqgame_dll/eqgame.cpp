@@ -558,6 +558,7 @@ unsigned char __fastcall HandleWorldMessage_Detour(DWORD *con, DWORD edx, unsign
 	{
 #ifdef DPSPLUGIN
 		case 0x744c:
+		case 0x6f15:
 			OnRecvEdgeDPSPacket(opcode, buf, size);
 			break;
 #endif

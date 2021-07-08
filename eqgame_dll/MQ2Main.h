@@ -488,6 +488,7 @@ EQLIB_API PCHAR GetLoginName();
 EQLIB_API FLOAT DistanceToPoint(PSPAWNINFO pSpawn, FLOAT xLoc, FLOAT yLoc);
 EQLIB_API PCHAR ShowSpellSlotInfo(PSPELL pSpell, PCHAR szBuffer);
 EQLIB_API VOID SlotValueCalculate(PCHAR szBuff, PSPELL pSpell, int i, double mp);
+EQLIB_API uint32_t ReturnValueCalculate(PSPELL pSpell, uint32_t i, int32_t inLevel, double mp);
 EQLIB_API PCHAR GetSpellEffectName(DWORD EffectID, PCHAR szBuffer);
 EQLIB_API VOID GetGameDate(int* Month, int* Day, int* Year);
 EQLIB_API VOID GetGameTime(int* Hour, int* Minute, int* Night);
@@ -824,7 +825,7 @@ typedef struct
 	/* 02 */	uint16_t	source;
 	/* 04 */	uint8_t	type;			//slashing, etc.  231 (0xE7) for spells
 	/* 05 */	uint32_t	spellid;
-	/* 09 */	int32_t	damage;
+	/* 09 */	uint32_t	damage;
 	/* 13 */	float	force;		// cd cc cc 3d
 	/* 17 */	float	hit_heading;		// see above notes in Action_Struct
 	/* 21 */	float	hit_pitch;
@@ -832,6 +833,26 @@ typedef struct
 	/* 26 */	uint32_t	special; // 2 = Rampage, 1 = Wild Rampage
 	/* 30 */
 } CombatDamage_Struct, *pCombatDamage_Struct;
+
+
+typedef struct
+{
+	/*00*/	uint16_t target;			// id of target
+	/*02*/	uint16_t source;			// id of caster
+	/*04*/	uint16_t level;			// level of caster for spells, OSX dump says attack rating, guess spells use it for level
+	/*06*/  uint32_t unknown06;		// OSX dump says base_damage, was used for bard mod too, this is 0'd :(
+	/*10*/	uint32_t instrument_mod;
+	/*14*/  uint32_t force;
+	/*18*/  uint32_t hit_heading;
+	/*22*/  uint32_t hit_pitch;
+	/*26*/  uint8_t type;				// 231 (0xE7) for spells, skill
+	/*27*/  uint32_t damage;			// OSX says min_damage
+	/*31*/  uint16_t unknown31;		// OSX says tohit
+	/*33*/	uint32_t spell;			// spell id being cast
+	/*37*/	uint8_t spell_level;			// level of caster again? Or maybe the castee
+	/*38*/	uint8_t effect_flag;		// if this is 4, the effect is valid: or if two are sent at the same time?
+	/*39*/
+} Action_Struct, *pAction_Struct;
 
 typedef struct Death_Struct
 {
@@ -852,6 +873,7 @@ typedef struct DeleteSpawn_Struct
 } DeleteSpawn_Struct, *pDeleteSpawn_Struct;
 
 #define OP_CombatAction 0x744c
+#define OP_Damage 0x6f15
 #define OP_Death 0x6517
 #define OP_DeleteSpawn 0x7280
 

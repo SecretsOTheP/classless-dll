@@ -86,7 +86,7 @@ EQ::Random randomNums;
 int zPosition = 0;
 
 extern bool addedTestText;
-void FloatingTextManager::AddDamageText(PSPAWNINFO actor, int damage, int spellId, uint8_t nHitType)
+void FloatingTextManager::AddDamageText(PSPAWNINFO actor, int32_t damage, int spellId, uint8_t nHitType)
 {
 
 	DamageText* tmp = new DamageText();
@@ -122,14 +122,14 @@ void FloatingTextManager::AddDamageText(PSPAWNINFO actor, int damage, int spellI
 
 D3DXCOLOR FloatingTextManager::GetFontColorFromHitType(uint8_t nHitType)
 {
-	if (nHitType & 4)
+	if (nHitType == 1)
 		return D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
 	return D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 float FloatingTextManager::GetFontSizePctFromHitType(uint8_t nHitType)
 {
-	if (nHitType & 2)
+	if (nHitType == 2)
 		return 0.6f;
 
 	return 1.0f;
@@ -137,7 +137,7 @@ float FloatingTextManager::GetFontSizePctFromHitType(uint8_t nHitType)
 
 EFonts FloatingTextManager::GetFontTypeFromHitType(uint8_t nHitType)
 {
-	if (nHitType & 1)
+	if (nHitType == 3)
 		return EFonts::EFontArialBold;
 	return EFonts::EFontArial;
 }

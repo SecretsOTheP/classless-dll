@@ -2742,6 +2742,79 @@ PCHAR ShowSpellSlotInfo(PSPELL pSpell, PCHAR szBuffer)
     return szBuffer; 
 } 
 
+
+uint32_t ReturnValueCalculate(PSPELL pSpell, uint32_t i, int32_t inLevel, double mp)
+{
+    CHAR szTemp[MAX_STRING] = { 0 };
+    long szBase = 0;
+    long szValue = 0;
+    int level = 0;
+
+    //find min level spell is usable 
+    int minlevel = 1;
+    for (int j = 0; j <= 16; j++)
+    {
+        if (pSpell->Level[j] > 0 && pSpell->Level[j] <= MAX_PC_LEVEL) {
+            if (minlevel == 1)  minlevel = pSpell->Level[j];
+            if (pSpell->Level[j] < minlevel)  minlevel = pSpell->Level[j];
+        }
+    }
+
+    //apply base mod for weird effect calcs.. 
+    szBase = (long)(pSpell->Base[i]);
+
+    int32_t retVal = 0;
+
+    switch (pSpell->Calc[i])
+    {
+    case 000:
+    case 100: // no calc just value assignment from base 
+        retVal = abs(szBase);
+        break;
+    case 5: //   Level*5 + Base 
+        retVal = (level * 5) + abs(szBase);
+        break;
+    case 6: //   Level*6 + Base 
+        retVal = (level * 6) + abs(szBase);
+        break;
+    case 10: //   Level*10 + Base 
+        retVal = (level * 10) + abs(szBase);
+        break;
+    case 101: // Level/2 + Base 
+        retVal = (long)(level / 2) + abs(szBase);
+        break;
+    case 102: // Level + Base 
+        retVal = level + abs(szBase);
+        break;
+    case 103: // Level*2 + Base 
+        retVal = (level * 2) + abs(szBase);
+        break;
+    case 104: // Level*3 + Base 
+        retVal = (level * 3) + abs(szBase);
+        break;
+    case 105: // Level*4 + Base 
+        retVal = (level * 4) + abs(szBase);
+        break;
+    case 109: // Skill/16 + Base ?? 
+        retVal = ((long)(235 / 16)) + abs(szBase);
+        break;
+    case 110: // Skill/8 + Base 
+        szValue = ((long)(235 / 8)) + abs(szBase);
+        break;
+    case 121: // correct?
+        retVal = abs(pSpell->Max[i]);
+        break;
+    case 123: // Base to Max (random) 
+        retVal = abs(szBase);
+        break;
+    default: //undefined calc 
+        retVal = 0;
+        break;
+    }
+
+    return retVal;
+}
+
 // *************************************************************************** 
 // Function:    SlotValueCalculateulate 
 // Author:      Koad (used in his SpellSearch Plugin)
