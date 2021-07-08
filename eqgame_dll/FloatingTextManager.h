@@ -149,8 +149,8 @@ public:
 	unsigned __int64 InitialTick;
 	int32_t Damage;
 	uint8_t hitType;
-	bool actorID;
-	bool actorSourceID;
+	uint32_t actorID;
+	uint32_t actorSourceID;
 	D3DXCOLOR fontColor;
 	float fontSizePct;
 	tweeny::tween<int> LocationTween;
