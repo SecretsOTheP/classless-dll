@@ -109,6 +109,7 @@ void FloatingTextManager::AddDamageText(PSPAWNINFO actor, PSPAWNINFO sourceActor
 	tmp->hitType = nHitType;
 	bool isLocalActor = (PSPAWNINFO)pLocalPlayer == actor;
 	tmp->actorID = actor->SpawnID;
+	tmp->actorSourceID = sourceActor->SpawnID;
 	tmp->fontColor = GetFontColorFromHitType(nHitType);
 	tmp->fontSizePct = GetFontSizePctFromHitType(nHitType);
 	auto rOffsetX = 0.0f;
