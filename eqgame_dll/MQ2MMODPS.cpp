@@ -160,44 +160,72 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 			WriteChatf("OP_CombatAction");
 #endif
 			bool verified = false;
-			if (SpawnMe()->SpawnID == pDamage->source)         verified = true;
-			else if (PetID() > 0 && PetID() == pDamage->source)  verified = true;
-			else if (PSPAWNINFO SourceID = GetSpawnID(pDamage->source))
+			if (SpawnMe()->SpawnID == pAction->source)         verified = true;
+			else if (PetID() > 0 && PetID() == pAction->source)  verified = true;
+			else if (PSPAWNINFO SourceID = GetSpawnID(pAction->source))
 			{
 				if (SourceID->MasterID > 0)
 				{
 					PSPAWNINFO MasterMob = GetSpawnID(SourceID->MasterID);
-					if (IsGroupMember(MasterMob))
+					if (SpawnMe() == MasterMob)
+						verified = true;
+					else if (IsMySwarmPet(MasterMob))
+						verified = true;
+					else if (IsGroupMember(MasterMob))
+						verified = true;
+					else if (IsGroupMemberSwarmPet(MasterMob))
 						verified = true;
 					else if (IsRaidMember(MasterMob))
 						verified = true;
+					else if (IsRaidMemberSwarmPet(MasterMob))
+						verified = true;
 				}
 
-				if (SpawnMe()->SpawnID == SourceID->MasterID)
+				if (SpawnMe() == SourceID)
+					verified = true;
+				else if (IsMySwarmPet(SourceID))
 					verified = true;
 				else if (IsGroupMember(SourceID))
 					verified = true;
+				else if (IsGroupMemberSwarmPet(SourceID))
+					verified = true;
 				else if (IsRaidMember(SourceID))
+					verified = true;
+				else if (IsRaidMemberSwarmPet(SourceID))
 					verified = true;
 			}
-			if (SpawnMe()->SpawnID == pDamage->target)         verified = true;
-			else if (PetID() > 0 && PetID() == pDamage->target)  verified = true;
-			else if (PSPAWNINFO SourceID = GetSpawnID(pDamage->target))
+			if (SpawnMe()->SpawnID == pAction->target)         verified = true;
+			else if (PetID() > 0 && PetID() == pAction->target)  verified = true;
+			else if (PSPAWNINFO SourceID = GetSpawnID(pAction->target))
 			{
 				if (SourceID->MasterID > 0)
 				{
 					PSPAWNINFO MasterMob = GetSpawnID(SourceID->MasterID);
-					if (IsGroupMember(MasterMob))
+					if (SpawnMe()->SpawnID == MasterMob->SpawnID)
+						verified = true;
+					else if (IsMySwarmPet(MasterMob))
+						verified = true;
+					else if (IsGroupMember(MasterMob))
+						verified = true;
+					else if (IsGroupMemberSwarmPet(MasterMob))
 						verified = true;
 					else if (IsRaidMember(MasterMob))
+						verified = true;
+					else if (IsRaidMemberSwarmPet(MasterMob))
 						verified = true;
 				}
 
 				if (SpawnMe()->SpawnID == SourceID->MasterID)
 					verified = true;
+				else if (IsMySwarmPet(SourceID))
+					verified = true;
 				else if (IsGroupMember(SourceID))
 					verified = true;
+				else if (IsGroupMemberSwarmPet(SourceID))
+					verified = true;
 				else if (IsRaidMember(SourceID))
+					verified = true;
+				else if (IsRaidMemberSwarmPet(SourceID))
 					verified = true;
 			}
 
@@ -237,14 +265,19 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 
 					}
 
-					if (killerMob && HaveTarget)
+					if (HaveTarget)
 					{
 						entry = GetEdgeDPSEntryByID(HaveTarget->SpawnID);
-						killerentry = GetEdgeDPSEntryByID(killerMob->SpawnID);
+						killerentry = GetEdgeDPSEntryByID(killerMob ? killerMob->SpawnID : HaveTarget->SpawnID);
 						if (verified)
 						{
 							int nType = 0;
-
+							if (!entry.InitialSpawnName[0])
+								strncpy_s(entry.InitialSpawnName, HaveTarget->DisplayedName, 64);
+							if (!killerentry.InitialSpawnName[0])
+								strncpy_s(entry.InitialSpawnName, killerMob ? killerMob->DisplayedName : HaveTarget->DisplayedName, 64);
+							SetEdgeDPSEntryByID(entry.SpawnID, entry);
+							SetEdgeDPSEntryByID(killerentry.SpawnID, killerentry);
 							int32_t nDamage = pDamage->damage;
 							if (nDamage > 0)
 								g_pFtm->AddDamageText(HaveTarget, killerMob ? killerMob : HaveTarget, nDamage, pDamage->spellid, nType);
@@ -255,6 +288,9 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 		}
 		else if (Type == OP_CombatAction)
 		{
+
+		if (pAction->effect_flag == 0x04)
+			return true;
 #ifdef DPSDEBUG
 			WriteChatf("OP_CombatAction");
 #endif
@@ -266,17 +302,31 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 				if (SourceID->MasterID > 0)
 				{
 					PSPAWNINFO MasterMob = GetSpawnID(SourceID->MasterID);
-					if (IsGroupMember(MasterMob))
+					if (SpawnMe() == MasterMob)
+						verified = true;
+					else if (IsMySwarmPet(MasterMob))
+						verified = true;
+					else if (IsGroupMember(MasterMob))
+						verified = true;
+					else if (IsGroupMemberSwarmPet(MasterMob))
 						verified = true;
 					else if (IsRaidMember(MasterMob))
 						verified = true;
+					else if (IsRaidMemberSwarmPet(MasterMob))
+						verified = true;
 				}
 
-				if (SpawnMe()->SpawnID == SourceID->MasterID)
+				if (SpawnMe() == SourceID)
+					verified = true;
+				else if (IsMySwarmPet(SourceID))
 					verified = true;
 				else if (IsGroupMember(SourceID))
 					verified = true;
+				else if (IsGroupMemberSwarmPet(SourceID))
+					verified = true;
 				else if (IsRaidMember(SourceID))
+					verified = true;
+				else if (IsRaidMemberSwarmPet(SourceID))
 					verified = true;
 			}
 			if (SpawnMe()->SpawnID == pAction->target)         verified = true;
@@ -286,17 +336,31 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 				if (SourceID->MasterID > 0)
 				{
 					PSPAWNINFO MasterMob = GetSpawnID(SourceID->MasterID);
-					if (IsGroupMember(MasterMob))
+					if (SpawnMe()->SpawnID == MasterMob->SpawnID)
+						verified = true;
+					else if (IsMySwarmPet(MasterMob))
+						verified = true;
+					else if (IsGroupMember(MasterMob))
+						verified = true;
+					else if (IsGroupMemberSwarmPet(MasterMob))
 						verified = true;
 					else if (IsRaidMember(MasterMob))
+						verified = true;
+					else if (IsRaidMemberSwarmPet(MasterMob))
 						verified = true;
 				}
 
 				if (SpawnMe()->SpawnID == SourceID->MasterID)
 					verified = true;
+				else if (IsMySwarmPet(SourceID))
+					verified = true;
 				else if (IsGroupMember(SourceID))
 					verified = true;
+				else if (IsGroupMemberSwarmPet(SourceID))
+					verified = true;
 				else if (IsRaidMember(SourceID))
+					verified = true;
+				else if (IsRaidMemberSwarmPet(SourceID))
 					verified = true;
 			}
 
@@ -336,23 +400,12 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 
 					}
 
-					if (killerMob && HaveTarget)
+					if (HaveTarget)
 					{
 						entry = GetEdgeDPSEntryByID(HaveTarget->SpawnID);
-						killerentry = GetEdgeDPSEntryByID(killerMob->SpawnID);
+						killerentry = GetEdgeDPSEntryByID(killerMob ? killerMob->SpawnID : HaveTarget->SpawnID);
 						if (verified)
 						{
-							if ((pAction->type & 4) == 0)
-							{
-								//entry.TotalIncomingDamage += (int64_t)pAction->damage;
-								//killerentry.TotalOutgoingDamage += (int64_t)pAction->damage;
-								//if (!entry.InitialSpawnName[0])
-								//	strncpy_s(entry.InitialSpawnName, HaveTarget->DisplayedName, 64);
-								//if (!killerentry.InitialSpawnName[0])
-								//	strncpy_s(entry.InitialSpawnName, killerMob->DisplayedName, 64);
-								//SetEdgeDPSEntryByID(entry.SpawnID, entry);
-								//SetEdgeDPSEntryByID(killerentry.SpawnID, killerentry);
-							}
 
 							int nType = 0;
 
@@ -361,8 +414,6 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 							auto spellAction = GetSpellByID(pAction->spell);
 							if (spellAction)
 							{
-								if (spellAction->SpellType > 0)
-									nType = 1;
 
 								for (int i = 0; i <= 11; i++)
 								{
@@ -371,6 +422,18 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 										nDamage += ReturnValueCalculate(spellAction, i, pAction->spell_level, 1);
 									}
 								}
+								if (spellAction->SpellType > 0)
+									nType = 1;
+								else
+								{
+									if (!entry.InitialSpawnName[0])
+										strncpy_s(entry.InitialSpawnName, HaveTarget->DisplayedName, 64);
+									if (!killerentry.InitialSpawnName[0])
+										strncpy_s(entry.InitialSpawnName, killerMob ? killerMob->DisplayedName : HaveTarget->DisplayedName, 64);
+									SetEdgeDPSEntryByID(entry.SpawnID, entry);
+									SetEdgeDPSEntryByID(killerentry.SpawnID, killerentry);
+								}
+
 								if(nDamage > 0)
 								{
 									g_pFtm->AddDamageText(HaveTarget, killerMob ? killerMob : HaveTarget, nDamage, pAction->spell, nType);

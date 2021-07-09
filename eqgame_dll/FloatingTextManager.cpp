@@ -91,15 +91,6 @@ void FloatingTextManager::AddDamageText(PSPAWNINFO actor, PSPAWNINFO sourceActor
 	if (!actor || !sourceActor)
 		return;
 
-	for (auto objectInHud : HudObjects)
-	{
-		if (objectInHud->actorID == actor->SpawnID && objectInHud->SpellID == spellId && sourceActor->SpawnID == objectInHud->actorSourceID)
-		{
-			if (objectInHud->LastTick + 100 <= MQGetTickCount64())
-				return;
-		}
-	}
-
 	DamageText* tmp = new DamageText();
 
 	tmp->Damage = damage;

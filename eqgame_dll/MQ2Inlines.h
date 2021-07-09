@@ -364,6 +364,77 @@ static inline BOOL IsGroupMember(PSPAWNINFO pSpawn)
     return false;
 }
 
+static inline BOOL IsGroupMemberSwarmPet(PSPAWNINFO pSpawn)
+{
+
+    if (!pSpawn || !pRaid)
+        return false;
+
+    std::string spawnName = pSpawn->DisplayedName;
+
+    auto findPetName = spawnName.find("`s pet");
+    if (findPetName != std::string::npos)
+    {
+        auto masterName = spawnName.substr(0, findPetName);
+
+        PCHARINFO pChar = GetCharInfo();
+        if (!pChar || !pChar->pGroupInfo) return 0;
+        for (DWORD N = 1; N < 6; N++)
+        {
+            if (pChar->pGroupInfo->pMember[N])
+            {
+                CHAR Name[MAX_STRING] = { 0 };
+                GetCXStr(pChar->pGroupInfo->pMember[N]->pName, Name, MAX_STRING);
+                if (!stricmp(masterName.c_str(), Name))
+                    return true;
+            }
+        }
+    }
+    return false;
+}
+
+
+static inline BOOL IsMySwarmPet(PSPAWNINFO pSpawn)
+{
+
+    if (!pSpawn || !pRaid)
+        return false;
+
+    std::string spawnName = pSpawn->DisplayedName;
+
+    auto findPetName = spawnName.find("`s pet");
+    if (findPetName != std::string::npos)
+    {
+        auto masterName = spawnName.substr(0, findPetName);
+
+        if (((PSPAWNINFO)pCharSpawn) && !stricmp(masterName.c_str(), ((PSPAWNINFO)pCharSpawn)->DisplayedName))
+            return true;
+    }
+    return false;
+}
+
+static inline BOOL IsRaidMemberSwarmPet(PSPAWNINFO pSpawn)
+{
+
+    if (!pSpawn || !pRaid)
+        return false;
+
+    std::string spawnName = pSpawn->DisplayedName;
+
+    auto findPetName = spawnName.find("`s pet");
+    if (findPetName != std::string::npos)
+    {
+        auto masterName = spawnName.substr(0, findPetName);
+
+        for (DWORD N = 0; N < 72; N++)
+        {
+            if (pRaid->RaidMemberUsed[N] && !stricmp(masterName.c_str(), pRaid->RaidMember[N].Name))
+                return true;
+        }
+    }
+    return false;
+}
+
 static inline PSPAWNINFO GetRaidMember(unsigned long N)
 {
     if (N>=72)
