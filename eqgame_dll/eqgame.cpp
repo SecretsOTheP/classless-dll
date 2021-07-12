@@ -731,6 +731,10 @@ BOOL __stdcall SetDeviceGammaRamp_Hook(HDC hdc, LPVOID lpRamp)
 extern CRITICAL_SECTION gDetourCS;
 void InitHooks()
 {
+   rename("arena.eqg", "arena.eqg.bak");
+   rename("highpasshold.eqg", "highpasshold.eqg.bak");
+   rename("nektulos.eqg", "nektulos.eqg.bak");
+   rename("lavastorm.eqg", "lavastorm.eqg.bak");
 
    InitOffsets();
    GetEQPath(gszEQPath);

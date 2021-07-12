@@ -160,9 +160,9 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 			WriteChatf("OP_CombatAction");
 #endif
 			bool verified = false;
-			if (SpawnMe()->SpawnID == pAction->source)         verified = true;
-			else if (PetID() > 0 && PetID() == pAction->source)  verified = true;
-			else if (PSPAWNINFO SourceID = GetSpawnID(pAction->source))
+			if (SpawnMe()->SpawnID == pDamage->source)         verified = true;
+			else if (PetID() > 0 && PetID() == pDamage->source)  verified = true;
+			else if (PSPAWNINFO SourceID = GetSpawnID(pDamage->source))
 			{
 				if (SourceID->MasterID > 0)
 				{
@@ -194,9 +194,9 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 				else if (IsRaidMemberSwarmPet(SourceID))
 					verified = true;
 			}
-			if (SpawnMe()->SpawnID == pAction->target)         verified = true;
-			else if (PetID() > 0 && PetID() == pAction->target)  verified = true;
-			else if (PSPAWNINFO SourceID = GetSpawnID(pAction->target))
+			if (SpawnMe()->SpawnID == pDamage->target)         verified = true;
+			else if (PetID() > 0 && PetID() == pDamage->target)  verified = true;
+			else if (PSPAWNINFO SourceID = GetSpawnID(pDamage->target))
 			{
 				if (SourceID->MasterID > 0)
 				{
@@ -231,13 +231,6 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 
 			if (verified)
 			{
-
-				EdgeDPSEntry entry;
-				memset(&entry, 0, sizeof(EdgeDPSEntry));
-
-				EdgeDPSEntry killerentry;
-				memset(&killerentry, 0, sizeof(EdgeDPSEntry));
-
 				auto HaveTarget = GetSpawnID(pDamage->target);
 				auto killerMob = GetSpawnID(pDamage->source);
 				if (HaveTarget)
@@ -267,17 +260,9 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 
 					if (HaveTarget)
 					{
-						entry = GetEdgeDPSEntryByID(HaveTarget->SpawnID);
-						killerentry = GetEdgeDPSEntryByID(killerMob ? killerMob->SpawnID : HaveTarget->SpawnID);
 						if (verified)
 						{
 							int nType = 0;
-							if (!entry.InitialSpawnName[0])
-								strncpy_s(entry.InitialSpawnName, HaveTarget->DisplayedName, 64);
-							if (!killerentry.InitialSpawnName[0])
-								strncpy_s(entry.InitialSpawnName, killerMob ? killerMob->DisplayedName : HaveTarget->DisplayedName, 64);
-							SetEdgeDPSEntryByID(entry.SpawnID, entry);
-							SetEdgeDPSEntryByID(killerentry.SpawnID, killerentry);
 							int32_t nDamage = pDamage->damage;
 							if (nDamage > 0)
 								g_pFtm->AddDamageText(HaveTarget, killerMob ? killerMob : HaveTarget, nDamage, pDamage->spellid, nType);
@@ -367,12 +352,6 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 			if (verified)
 			{
 
-				EdgeDPSEntry entry;
-				memset(&entry, 0, sizeof(EdgeDPSEntry));
-
-				EdgeDPSEntry killerentry;
-				memset(&killerentry, 0, sizeof(EdgeDPSEntry));
-
 				auto HaveTarget = GetSpawnID(pAction->target);
 				auto killerMob = GetSpawnID(pAction->source);
 				if (HaveTarget)
@@ -402,8 +381,6 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 
 					if (HaveTarget)
 					{
-						entry = GetEdgeDPSEntryByID(HaveTarget->SpawnID);
-						killerentry = GetEdgeDPSEntryByID(killerMob ? killerMob->SpawnID : HaveTarget->SpawnID);
 						if (verified)
 						{
 
@@ -424,16 +401,6 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 								}
 								if (spellAction->SpellType > 0)
 									nType = 1;
-								else
-								{
-									if (!entry.InitialSpawnName[0])
-										strncpy_s(entry.InitialSpawnName, HaveTarget->DisplayedName, 64);
-									if (!killerentry.InitialSpawnName[0])
-										strncpy_s(entry.InitialSpawnName, killerMob ? killerMob->DisplayedName : HaveTarget->DisplayedName, 64);
-									SetEdgeDPSEntryByID(entry.SpawnID, entry);
-									SetEdgeDPSEntryByID(killerentry.SpawnID, killerentry);
-								}
-
 								if(nDamage > 0)
 								{
 									g_pFtm->AddDamageText(HaveTarget, killerMob ? killerMob : HaveTarget, nDamage, pAction->spell, nType);
