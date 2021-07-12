@@ -751,7 +751,6 @@ void InitHooks()
    InitializeMQ2Labels();
 #ifdef DPSPLUGIN
    InitializeEdgeDPSPlugin();
-   InitializeDPSPlugin();
 #endif
 
 	//heqwMod

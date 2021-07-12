@@ -13,7 +13,6 @@
 #include "FloatingTextManager.h"
 #include <chrono>  // for high_resolution_clock
 #include <sstream>
-extern CDPSAdvWnd *DPSWnd;
 
 //#define DPSDEBUG
 
@@ -420,29 +419,6 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 
 VOID DPSCommand(PSPAWNINFO pChar, PCHAR zLine)
 {
-	char Tmp[STRINGSIZE]; char Var[STRINGSIZE]; char Set[STRINGSIZE]; int Parm=1; bool needhelp=true;
-	do 
-	{
-		GetCustomArg(Tmp,zLine,Parm++,STRINGSIZE);
-		GetCustomArg(Var,Tmp,1,STRINGSIZE,FALSE,FALSE,FALSE,'=');
-		GetCustomArg(Set,Tmp,2,STRINGSIZE,FALSE,FALSE,FALSE,'=');
-		if (!_stricmp("reset", Var))
-		{
-			needhelp = false;
-			DamageEntries.clear();
-		}
-		else if (!_stricmp("toggle", Var))  if (DPSWnd)
-		{
-			((CXWnd*)DPSWnd)->Show(1, 1);
-			CheckActive();
-			needhelp = false;
-		}
-	} while (Tmp[0]);
-
-	if(needhelp)
-	{
-		WriteChatf("USAGE: /dps reset | toggle");
-	}
 }
 
 PLUGIN_API VOID InitializeEdgeDPSPlugin(VOID)

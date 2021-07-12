@@ -298,7 +298,6 @@ EQLIB_API VOID WriteChatColor(PCHAR Line, DWORD Color=USERCOLOR_DEFAULT, DWORD F
 #endif
 EQLIB_API VOID OnAddSpawn(PSPAWNINFO pNewSpawn);
 PLUGIN_API VOID OnRemoveSpawn(PSPAWNINFO pSpawn);
-PLUGIN_API VOID InitializeDPSPlugin(VOID);
 PLUGIN_API VOID OnDPSBeginZone(VOID);
 PLUGIN_API VOID OnFloatingTextManagerBeginZone();
 PLUGIN_API VOID OnFloatingTextManagerEndZone();
@@ -332,7 +331,6 @@ void         HandleEdgeDPSDeath(EdgeDPSEntry entry);
 EdgeDPSEntry GetEdgeDPSEntryByID(DWORD id, bool bAdd = true);
 void SetEdgeDPSEntryByID(DWORD id, EdgeDPSEntry entry);
 PLUGIN_API VOID SetMapGameState(DWORD GameState);
-PLUGIN_API VOID SetDPSGameState(DWORD GameState);
 PLUGIN_API VOID SetEdgeDPSGameState(DWORD GameState);
 PLUGIN_API BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size);
 PLUGIN_API BOOL OnRecvEdgeStatLabelPacket(DWORD Type, PVOID Packet, DWORD Size);
@@ -695,10 +693,6 @@ struct EntDamage {
 	int AddTime;
 };
 
-void         DestroyDPSWindow();
-void         CreateDPSWindow();
-void         CreateDPSWindow();
-void         DestroyDPSWindow();
 template <unsigned int _EntSize, unsigned int _MobSize>bool SplitStringOtherHitOther(PCHAR Line, CHAR(&EntName)[_EntSize], CHAR(&MobName)[_MobSize], int *Damage);
 template <unsigned int _EntSize, unsigned int _MobSize>bool SplitStringDOT(PCHAR Line, CHAR(&EntName)[_EntSize], CHAR(&MobName)[_MobSize], int *Damage);
 template <unsigned int _EntSize, unsigned int _MobSize>bool SplitStringNonMelee(PCHAR Line, CHAR(&EntName)[_EntSize], CHAR(&MobName)[_MobSize], int *Damage);
@@ -708,7 +702,6 @@ void         HandleNonMelee(PCHAR Line);
 void         HandleDOT(PCHAR Line);
 void		 ListSwitch(PSPAWNINFO Switcher);
 void         TargetSwitch();
-void         CheckActive();
 void         DPSAdvCmd(PSPAWNINFO pChar, PCHAR szLine);
 #ifdef DPSDEV
 void         DPSTestCmd(PSPAWNINFO pChar, PCHAR szLine);
@@ -768,37 +761,6 @@ inline bool ValidIngame(bool bCheckDead)
 	// CTD prevention function
 	return (GetGameState() == GAMESTATE_INGAME && GetCharInfo()->pSpawn && GetCharInfo2() && GetCharInfo() && GetCharInfo()->Stunned != 3);
 }
-
-
-class CDPSAdvWnd : public CCustomWnd {
-public:
-	CTabWnd *Tabs;
-	CListWnd *LTopList;
-	CComboWnd *CMobList;
-	CCheckBoxWnd *CShowMeTop;
-	CCheckBoxWnd *CShowMeMin;
-	CTextEntryWnd *TShowMeMin;
-	CCheckBoxWnd *CClearAfterCombatBox;
-	CCheckBoxWnd *CLiveUpdate;
-	CTextEntryWnd *TFightIA;
-	CTextEntryWnd *TFightTO;
-	CTextEntryWnd *TEntTO;
-	CComboWnd *CShowTotal;
-	//   CListWnd *LFightList;
-	bool ReSort;
-
-	CDPSAdvWnd();
-	~CDPSAdvWnd();
-	void DrawList();
-	void SetTotal(int LineNum, PSPAWNINFO Mob);
-	void DrawCombo();
-	void LoadLoc(char szChar[64] = 0);
-	void LoadSettings();
-	void SaveLoc();
-	void SetLineColors(int LineNum, EdgeDPSEntry Ent, bool Total = false, bool MeTop = false, bool UseEnt = true);
-	int WndNotification(CXWnd *pWnd, unsigned int Message, void *unknown);
-	void SaveSetting(PCHAR Key, PCHAR Value, ...);
-};
 
 typedef struct FormattedMessage_Struct
 {

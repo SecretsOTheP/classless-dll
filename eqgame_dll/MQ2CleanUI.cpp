@@ -29,18 +29,12 @@ public:
     VOID CleanUI_Trampoline(VOID); 
     VOID CleanUI_Detour(VOID) 
     { 
-#ifdef DPSPLUGIN
-		OnDPSCleanUI();
-#endif
         DebugTry(CleanUI_Trampoline());
     } 
 
     VOID ReloadUI_Trampoline(BOOL);
     VOID ReloadUI_Detour(BOOL UseINI)
     {
-#ifdef DPSPLUGIN
-		OnDPSReloadUI();
-#endif
         DebugTry(ReloadUI_Trampoline(UseINI));
     }
 

@@ -32,16 +32,12 @@ void Heartbeat()
         {
 			SetMapGameState(GameState);
 #ifdef DPSPLUGIN
-			SetDPSGameState(GameState);
 			SetEdgeDPSGameState(GameState);
 #endif
             gGameState=GameState;
         }
     }
     UpdateMQ2SpawnSort();
-#ifdef DPSPLUGIN
-	OnDPSPulse();
-#endif
 }
 
 bool isFtmPluginInit = false;
@@ -84,7 +80,6 @@ public:
 
 		SetMapGameState(GameState);
 #ifdef DPSPLUGIN
-		SetDPSGameState(GameState);
 		SetEdgeDPSGameState(GameState);
 #endif
         SetGameState_Trampoline(GameState);
