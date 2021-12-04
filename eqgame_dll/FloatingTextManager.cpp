@@ -38,6 +38,72 @@ void FloatingTextManager::Initialize()
 	}
 }
 
+void FloatingTextManager::OnLostDevice()
+{
+
+	for (auto delIt : HudObjects)
+	{
+		delIt->m_Text->_uiSprite->OnLostDevice();
+	}
+
+	for (auto delIt : DeadHudObjects)
+	{
+		if (delIt)
+		{
+			delIt->m_Text->_uiSprite->OnLostDevice();
+		}
+	}
+
+	for (auto spellText : spellTextures)
+	{
+		if (spellText.second)
+		{
+			spellText.second->sprite->OnLostDevice();
+		}
+	}
+
+	for (auto fntItem : fontMap)
+	{
+		if (fntItem.second)
+		{
+			fntItem.second->OnLostDevice();
+		}
+	}
+}
+
+void FloatingTextManager::OnResetDevice()
+{
+
+	for (auto delIt : HudObjects)
+	{
+		delIt->m_Text->_uiSprite->OnLostDevice();
+	}
+
+	for (auto delIt : DeadHudObjects)
+	{
+		if (delIt)
+		{
+			delIt->m_Text->_uiSprite->OnLostDevice();
+		}
+	}
+
+	for (auto spellText : spellTextures)
+	{
+		if (spellText.second)
+		{
+			spellText.second->sprite->OnLostDevice();
+		}
+	}
+
+	for (auto fntItem : fontMap)
+	{
+		if (fntItem.second)
+		{
+			fntItem.second->OnLostDevice();
+		}
+	}
+}
+
 void FloatingTextManager::Cleanup()
 {
 

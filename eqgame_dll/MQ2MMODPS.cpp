@@ -10,7 +10,7 @@
 
 
 #include "MQ2Main.h"
-#include "FloatingTextManager.h"
+//#include "FloatingTextManager.h"
 #include <chrono>  // for high_resolution_clock
 #include <sstream>
 extern CDPSAdvWnd *DPSWnd;
@@ -33,7 +33,7 @@ extern CDPSAdvWnd *DPSWnd;
 LONG          Report            = true;		// Module DPS Report?
 LONG          PopUps            = true;		// Module DPS PopUps?
 std::map<uint32_t, EdgeDPSEntry> DamageEntries;
-extern FloatingTextManager* g_pFtm;
+//extern FloatingTextManager* g_pFtm;
 
 std::chrono::time_point<std::chrono::steady_clock> lastTimeStamp = std::chrono::high_resolution_clock::now();
 
@@ -261,7 +261,7 @@ BOOL OnRecvEdgeDPSPacket(DWORD Type, PVOID Packet, DWORD Size)
 									SetEdgeDPSEntryByID(entry.SpawnID, entry);
 									SetEdgeDPSEntryByID(killerentry.SpawnID, killerentry);
 								}
-								g_pFtm->AddDamageText(HaveTarget, pAction->damage, pAction->spellid, pAction->hitType);
+								//g_pFtm->AddDamageText(HaveTarget, pAction->damage, pAction->spellid, pAction->hitType);
 							}
 						}
 #ifdef DPSDEBUG

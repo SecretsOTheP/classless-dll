@@ -15,7 +15,7 @@
 #include "FloatingTextManager.h"
 #include "RenderHooks.h"
 
-FloatingTextManager* g_pFtm = new FloatingTextManager();
+//FloatingTextManager* g_pFtm = new FloatingTextManager();
 
 // have detours been installed already?
 bool g_hooksInstalled = false;
@@ -39,16 +39,16 @@ using D3D9CREATEEXPROC = HRESULT(WINAPI*)(UINT, IDirect3D9Ex**);
 DWORD g_resetDeviceAddress = 0;
 
 
-
-PLUGIN_API VOID OnFloatingTextManagerBeginZone()
-{
-	g_pFtm->Cleanup();
-}
-
-PLUGIN_API VOID OnFloatingTextManagerEndZone()
-{
-	g_pFtm->Initialize();
-}
+//
+//PLUGIN_API VOID OnFloatingTextManagerBeginZone()
+//{
+//	g_pFtm->Cleanup();
+//}
+//
+//PLUGIN_API VOID OnFloatingTextManagerEndZone()
+//{
+//	g_pFtm->Initialize();
+//}
 
 
 

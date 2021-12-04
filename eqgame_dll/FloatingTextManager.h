@@ -167,6 +167,8 @@ public:
 	~FloatingTextManager();
 
 	void Initialize();
+	void OnLostDevice();
+	void OnResetDevice();
 
 	void Cleanup();
 

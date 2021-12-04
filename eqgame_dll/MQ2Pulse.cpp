@@ -20,7 +20,7 @@ GNU General Public License for more details.
 //#define DEBUG_TRY 1
 #include "MQ2Main.h"
 #include "FloatingTextManager.h"
-extern FloatingTextManager* g_pFtm;
+//extern FloatingTextManager* g_pFtm;
 BOOL TurnNotDone=FALSE;
 
 void Heartbeat()
@@ -55,8 +55,8 @@ extern IDirect3DDevice9* g_pDevice;
 BOOL Trampoline_ProcessGameEvents(VOID); 
 BOOL Detour_ProcessGameEvents(VOID) 
 { 
-	if(!isFtmPluginInit)
-		InitializeFloatingTextPlugin();
+	//if(!isFtmPluginInit)
+	//	InitializeFloatingTextPlugin();
 
     Heartbeat();
 #ifdef ISXEQ
