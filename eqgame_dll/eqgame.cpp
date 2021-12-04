@@ -158,9 +158,9 @@ char __fastcall SetCCreateCameraHook(DWORD thisptr)
 		//pLocalPlayer->Data.X = -316.0f;
 
 
-		pLocalPlayer->Data.X = -254.48f;
-		pLocalPlayer->Data.Y = 494.71f;
-		pLocalPlayer->Data.Z = -271.0f;
+		pLocalPlayer->Data.Y = -76.66f;
+		pLocalPlayer->Data.X = -221.45f;
+		pLocalPlayer->Data.Z = -21.0f;
 
 
 		//if (evil)
@@ -205,9 +205,9 @@ int __fastcall SelectCharacterHook(DWORD* thisptr, int a2, int a3, int a4)
 		//	pLocalPlayer->Data.Y = 0.0f;
 		//	pLocalPlayer->Data.Z = 10.0f;
 		//}	{
-		pLocalPlayer->Data.X = -254.48f;
-		pLocalPlayer->Data.Y = 494.71f;
-		pLocalPlayer->Data.Z = -271.0f;
+		pLocalPlayer->Data.Y = -76.66f;
+		pLocalPlayer->Data.X = -221.45f;
+		pLocalPlayer->Data.Z = -21.0f;
 
 		double result = 0.0f;
 		result = ((DWORD(__thiscall*) (LPVOID, int, int)) 0x0049D620) ((LPVOID)pDisplay, 12, 0); //position on ground
@@ -904,7 +904,7 @@ void InitHooks()
 	   return_SetCCreateCameraDet =
 		   (SetCCreateCamera_t)DetourFunction((PBYTE)var, (PBYTE)SetCCreateCameraHook);
 	   var = (((DWORD)0x009C8C2C - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "relic\x00", 6); // Use load instead of "CLZ"
+	   PatchA((DWORD*)var, "freeporttheater\x00", 16); // Use load instead of "CLZ"
 
 
 	   //basedata as spell CRC begin

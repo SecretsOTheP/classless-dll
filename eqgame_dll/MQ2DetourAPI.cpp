@@ -184,12 +184,12 @@ int CObfuscator::doit_detour(int opcode, int flag)
 #ifdef DPSPLUGIN
 		OnDPSBeginZone();
 #endif
-		OnFloatingTextManagerBeginZone();
+		//OnFloatingTextManagerBeginZone();
 	}
 	if (opcode == EQ_END_ZONE)
 	{
 		OnLabelReceivePPPacket();
-		OnFloatingTextManagerEndZone();
+		//OnFloatingTextManagerEndZone();
 #ifdef DPSPLUGIN
 		OnDPSEndZone();
 #endif
