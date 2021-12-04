@@ -575,124 +575,124 @@ unsigned char __fastcall HandleWorldMessage_Detour(DWORD *con, DWORD edx, unsign
 
 DETOUR_TRAMPOLINE_EMPTY(unsigned char __fastcall HandleWorldMessage_Trampoline(DWORD *con, DWORD edx, unsigned __int32 unk, unsigned __int16 opcode, char* buf, size_t size));
 
-unsigned char __fastcall SendMessage_Trampoline(DWORD *, unsigned __int32, unsigned __int32, char* buf, size_t, DWORD, DWORD);
-unsigned char __fastcall SendMessage_Detour(DWORD *con, unsigned __int32 unk, unsigned __int32 channel, char* buf, size_t size, DWORD a6, DWORD a7)
-{
-	DWORD retval = 0;
-	bExeChecksumrequested = 1;
-	int16_t opcode = 0;
-	memcpy(&opcode, buf, 2);
-
-	if (opcode == 0xf13 || opcode == 0x578f)
-	{
-		//if (opcode == 0xf13) //only need to do this once
-		//{
-		//	g_HWID.Grab();
-		//}
-
-		IP_ADAPTER_INFO AdapterInfo[16];
-		BYTE macAddress[8];
-		memset(macAddress, 0, sizeof(macAddress));
-		DWORD dwBufLen = sizeof(AdapterInfo);
-		DWORD dwStatus = GetAdaptersInfo(AdapterInfo, &dwBufLen);
-		if (dwStatus == ERROR_SUCCESS)
-		{
-
-			IP_ADAPTER_INFO AdapterInfo[16];
-			DWORD dwBufLen = sizeof(AdapterInfo);
-			DWORD dwStatus = GetAdaptersInfo(AdapterInfo, &dwBufLen);
-
-			MacEntry_Struct* me = new MacEntry_Struct;
-			memset(me, 0, sizeof(MacEntry_Struct));
-			me->opcode = 0xf13;
-			memcpy(&me->address, AdapterInfo[0].Address, 8);
-
-			SendMessage_Trampoline(con, unk, channel, (char*)me,
-				sizeof(MacEntry_Struct), a6, a7);
-
-			delete me;
-
-		}
-
-		DWORD var = 0;
-		auto charToBreak = rand();
-		var = (((DWORD)0x009DD250 - 0x400000) + baseAddress);
-		PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
-
-		charToBreak = rand();
-		var = (((DWORD)0x009DD254 - 0x400000) + baseAddress);
-		PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
-
-		charToBreak = rand();
-		var = (((DWORD)0x009DD258 - 0x400000) + baseAddress);
-		PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
-
-		charToBreak = rand();
-		var = (((DWORD)0x009DD25C - 0x400000) + baseAddress);
-		PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
-
-		charToBreak = rand();
-		var = (((DWORD)0x009DD260 - 0x400000) + baseAddress);
-		PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
-
-		char bOldUIEnabled = 0;
-
-		HMODULE hMods[1024];
-		DWORD cbNeeded;
-		unsigned int i;
-
-		if (opcode == 0xf13)
-		{
-			Checksum_Struct* scs = new Checksum_Struct;
-			memset(scs, 0, sizeof(Checksum_Struct));
-			scs->opcode = 0xf13;
-			Checksum_Struct* cs = (Checksum_Struct*)buf;
-			scs->checksum = cs->checksum;
-
-			retval = SendMessage_Trampoline(con, unk, channel, (char*)scs,
-				sizeof(Checksum_Struct), a6, a7);
-
-			delete scs;
-
-			//memset(cs->GPUString, 0, 256);
-			//memset(cs->CPUBrandString, 0, 256);
-			//memset(cs->HDDSerial, 0, 512);
-			//strncpy(cs->CPUBrandString, g_HWID.CPUBrandString, 64);
-			//strncpy(cs->GPUString, g_HWID.gfxDescription, 256);
-			//strncpy(cs->HDDSerial, std::string(g_HWID.HDDSerial.begin(), g_HWID.HDDSerial.end()).c_str(), 512);
-			//memcpy(cs->CRC1, &g_HWID.CPUBrandCRC, 4);
-			//memcpy(cs->CRC2, &g_HWID.CPUFeaturesCRC, 4);
-			//memcpy(cs->CRC3, &g_HWID.CPUFreqCRC, 4);
-			//memcpy(cs->CRC4, &g_HWID.CPUStringCRC, 4);
-			//memcpy(cs->CRC5, &g_HWID.MacCRC, 4);
-			//memcpy(cs->DisplayW, &g_HWID.DisplayW, 4);
-			//memcpy(cs->DisplayH, &g_HWID.DisplayH, 4);
-			return retval;
-		}
-	}
-
-	else if (opcode == 0x298d)
-	{
-		Checksum_Struct* cs = (Checksum_Struct*)buf;
-		Checksum_Struct* scs = new Checksum_Struct;
-		memset(scs, 0, sizeof(Checksum_Struct));
-		scs->opcode = 0x298d;
-		scs->checksum = cs->checksum;
-
-		retval = SendMessage_Trampoline(con, unk, channel, (char*)scs,
-			sizeof(Checksum_Struct), a6, a7);
-
-		delete scs;
-		return retval;
-	}
-
-	retval = SendMessage_Trampoline(con, unk, channel, buf,
-		size, a6, a7);
-
-	return retval;
-}
-
-DETOUR_TRAMPOLINE_EMPTY(unsigned char __fastcall SendMessage_Trampoline(DWORD *, unsigned __int32, unsigned __int32, char* buf, size_t, DWORD, DWORD));
+//unsigned char __fastcall SendMessage_Trampoline(DWORD *, unsigned __int32, unsigned __int32, char* buf, size_t, DWORD, DWORD);
+//unsigned char __fastcall SendMessage_Detour(DWORD *con, unsigned __int32 unk, unsigned __int32 channel, char* buf, size_t size, DWORD a6, DWORD a7)
+//{
+//	DWORD retval = 0;
+//	bExeChecksumrequested = 1;
+//	int16_t opcode = 0;
+//	memcpy(&opcode, buf, 2);
+//
+//	if (opcode == 0xf13 || opcode == 0x578f)
+//	{
+//		//if (opcode == 0xf13) //only need to do this once
+//		//{
+//		//	g_HWID.Grab();
+//		//}
+//
+//		//IP_ADAPTER_INFO AdapterInfo[16];
+//		//BYTE macAddress[8];
+//		//memset(macAddress, 0, sizeof(macAddress));
+//		//DWORD dwBufLen = sizeof(AdapterInfo);
+//		//DWORD dwStatus = GetAdaptersInfo(AdapterInfo, &dwBufLen);
+//		//if (dwStatus == ERROR_SUCCESS)
+//		//{
+//
+//		//	IP_ADAPTER_INFO AdapterInfo[16];
+//		//	DWORD dwBufLen = sizeof(AdapterInfo);
+//		//	DWORD dwStatus = GetAdaptersInfo(AdapterInfo, &dwBufLen);
+//
+//		//	MacEntry_Struct* me = new MacEntry_Struct;
+//		//	memset(me, 0, sizeof(MacEntry_Struct));
+//		//	me->opcode = 0xf13;
+//		//	memcpy(&me->address, AdapterInfo[0].Address, 8);
+//
+//		//	SendMessage_Trampoline(con, unk, channel, (char*)me,
+//		//		sizeof(MacEntry_Struct), a6, a7);
+//
+//		//	delete me;
+//
+//		//}
+//
+//		//DWORD var = 0;
+//		//auto charToBreak = rand();
+//		//var = (((DWORD)0x009DD250 - 0x400000) + baseAddress);
+//		//PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
+//
+//		//charToBreak = rand();
+//		//var = (((DWORD)0x009DD254 - 0x400000) + baseAddress);
+//		//PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
+//
+//		//charToBreak = rand();
+//		//var = (((DWORD)0x009DD258 - 0x400000) + baseAddress);
+//		//PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
+//
+//		//charToBreak = rand();
+//		//var = (((DWORD)0x009DD25C - 0x400000) + baseAddress);
+//		//PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
+//
+//		//charToBreak = rand();
+//		//var = (((DWORD)0x009DD260 - 0x400000) + baseAddress);
+//		//PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
+//
+//		char bOldUIEnabled = 0;
+//
+//		HMODULE hMods[1024];
+//		DWORD cbNeeded;
+//		unsigned int i;
+//
+//		if (opcode == 0xf13)
+//		{
+//			Checksum_Struct* scs = new Checksum_Struct;
+//			memset(scs, 0, sizeof(Checksum_Struct));
+//			scs->opcode = 0xf13;
+//			Checksum_Struct* cs = (Checksum_Struct*)buf;
+//			scs->checksum = cs->checksum;
+//
+//			retval = SendMessage_Trampoline(con, unk, channel, (char*)scs,
+//				sizeof(Checksum_Struct), a6, a7);
+//
+//			delete scs;
+//
+//			//memset(cs->GPUString, 0, 256);
+//			//memset(cs->CPUBrandString, 0, 256);
+//			//memset(cs->HDDSerial, 0, 512);
+//			//strncpy(cs->CPUBrandString, g_HWID.CPUBrandString, 64);
+//			//strncpy(cs->GPUString, g_HWID.gfxDescription, 256);
+//			//strncpy(cs->HDDSerial, std::string(g_HWID.HDDSerial.begin(), g_HWID.HDDSerial.end()).c_str(), 512);
+//			//memcpy(cs->CRC1, &g_HWID.CPUBrandCRC, 4);
+//			//memcpy(cs->CRC2, &g_HWID.CPUFeaturesCRC, 4);
+//			//memcpy(cs->CRC3, &g_HWID.CPUFreqCRC, 4);
+//			//memcpy(cs->CRC4, &g_HWID.CPUStringCRC, 4);
+//			//memcpy(cs->CRC5, &g_HWID.MacCRC, 4);
+//			//memcpy(cs->DisplayW, &g_HWID.DisplayW, 4);
+//			//memcpy(cs->DisplayH, &g_HWID.DisplayH, 4);
+//			return retval;
+//		}
+//	}
+//
+//	else if (opcode == 0x298d)
+//	{
+//		Checksum_Struct* cs = (Checksum_Struct*)buf;
+//		Checksum_Struct* scs = new Checksum_Struct;
+//		memset(scs, 0, sizeof(Checksum_Struct));
+//		scs->opcode = 0x298d;
+//		scs->checksum = cs->checksum;
+//
+//		retval = SendMessage_Trampoline(con, unk, channel, (char*)scs,
+//			sizeof(Checksum_Struct), a6, a7);
+//
+//		delete scs;
+//		return retval;
+//	}
+//
+//	retval = SendMessage_Trampoline(con, unk, channel, buf,
+//		size, a6, a7);
+//
+//	return retval;
+//}
+//
+//DETOUR_TRAMPOLINE_EMPTY(unsigned char __fastcall SendMessage_Trampoline(DWORD *, unsigned __int32, unsigned __int32, char* buf, size_t, DWORD, DWORD));
 DETOUR_TRAMPOLINE_EMPTY(unsigned char __fastcall SetDeviceGammaRamp_Trampoline(HDC hdc, LPVOID lpRamp));
 
 signed int ProcessGameEvents_Hook()
@@ -889,7 +889,7 @@ void InitHooks()
 
 	   DWORD var = (((DWORD)0x008C4CE0 - 0x400000) + baseAddress);
 
-	   EzDetour((DWORD)var, SendMessage_Detour, SendMessage_Trampoline);
+	   //EzDetour((DWORD)var, SendMessage_Detour, SendMessage_Trampoline);
 
 
 	   var = (((DWORD)0x004C3250 - 0x400000) + baseAddress);
@@ -917,84 +917,84 @@ void InitHooks()
 	   //basedata as spell CRC end
 
 
-	   var = (((DWORD)0x0044410C - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Remove heroic Stamina
+	   //var = (((DWORD)0x0044410C - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Remove heroic Stamina
 
-	   var = (((DWORD)0x00442B36 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Remove heroic int
-	   var = (((DWORD)0x00442BB6 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Remove heroic wis
+	   //var = (((DWORD)0x00442B36 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Remove heroic int
+	   //var = (((DWORD)0x00442BB6 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Remove heroic wis
 
-	   //#pragma comment(lib, "Iphlpapi.lib")
+	   ////#pragma comment(lib, "Iphlpapi.lib")
 
-	   var = (((DWORD)0x004538AE - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xEB",
-		   3); // Fix Max HP setting
-	   //0065CC71
-	   var = (((DWORD)0x0065CC09 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\x90\x90",
-		   4); // Fix tradeskill containers
+	   //var = (((DWORD)0x004538AE - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x90\x90\xEB",
+		  // 3); // Fix Max HP setting
+	   ////0065CC71
+	   //var = (((DWORD)0x0065CC09 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x90\x90\x90\x90",
+		  // 4); // Fix tradeskill containers
 
 	   DWORD varArray = (((DWORD)0x009BFF6D - 0x400000) + baseAddress);
 
-	   var = (((DWORD)0x004ED03B - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x4C", 1); // Link stuff
-	   var = (((DWORD)0x004ED051 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&varArray, 4); // Link stuff
-	   var = (((DWORD)0x004ED072 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&varArray, 4); // Link stuff
-	   var = (((DWORD)0x007BBC9A - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&varArray, 4); // Link stuff
-	   var = (((DWORD)0x007BBD77 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&varArray, 4); // Link stuff
+	   //var = (((DWORD)0x004ED03B - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x4C", 1); // Link stuff
+	   //var = (((DWORD)0x004ED051 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, (DWORD*)&varArray, 4); // Link stuff
+	   //var = (((DWORD)0x004ED072 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, (DWORD*)&varArray, 4); // Link stuff
+	   //var = (((DWORD)0x007BBC9A - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, (DWORD*)&varArray, 4); // Link stuff
+	   //var = (((DWORD)0x007BBD77 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, (DWORD*)&varArray, 4); // Link stuff
 
-	   var = (((DWORD)0x009BFF6D - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x25\x30\x38\x58", 4); // Link stuff
+	   //var = (((DWORD)0x009BFF6D - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x25\x30\x38\x58", 4); // Link stuff
 
-	   var = (((DWORD)0x00A1ACE0 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x4F", 1); // Link stuff
+	   //var = (((DWORD)0x00A1ACE0 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x4F", 1); // Link stuff
 
-	   var = (((DWORD)0x004ED062 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x08", 1); // Fix current HP cap
+	   //var = (((DWORD)0x004ED062 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x08", 1); // Fix current HP cap
 
-	   var = (((DWORD)0x004ED083 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x08", 1); // Fix current HP cap
+	   //var = (((DWORD)0x004ED083 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x08", 1); // Fix current HP cap
 
-	   var = (((DWORD)0x0063C36F - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\x90\x90", 4); // Bazaar trader anywhere
+	   //var = (((DWORD)0x0063C36F - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x90\x90\x90\x90", 4); // Bazaar trader anywhere
 
-	   var = (((DWORD)0x0063978E - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Bazaar trader anywhere
+	   //var = (((DWORD)0x0063978E - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Bazaar trader anywhere
 
-	   var = (((DWORD)0x006AB6AF - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xE9\xA5\x00", 5); // nop / jmp dmg bonus
+	   //var = (((DWORD)0x006AB6AF - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x90\x90\xE9\xA5\x00", 5); // nop / jmp dmg bonus
 
-	   var = (((DWORD)0x006AB6B6 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90", 1); // nop / jmp dmg bonus
+	   //var = (((DWORD)0x006AB6B6 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x90", 1); // nop / jmp dmg bonus
 
-	   var = (((DWORD)0x00632DE6 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90", 2); // nop trader check
+	   //var = (((DWORD)0x00632DE6 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x90\x90", 2); // nop trader check
 
-	   var = (((DWORD)0x00632DDF - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90", 2); // nop trader check
+	   //var = (((DWORD)0x00632DDF - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x90\x90", 2); // nop trader check
 
-	   var = (((DWORD)0x00632DF6 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90", 2); // nop trader check
+	   //var = (((DWORD)0x00632DF6 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x90\x90", 2); // nop trader check
 
-	   var = (((DWORD)0x00632E08 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90", 2); // nop trader check
+	   //var = (((DWORD)0x00632E08 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x90\x90", 2); // nop trader check
 
 	   var = (((DWORD)0x005FE751 - 0x400000) + baseAddress);
 	   PatchA((DWORD*)var, "\xEB\x1C\x90\x90\x90", 5); // patchme req bypass
 
-	   var = (((DWORD)0x006A3FB0 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xEB", 3); // nop / jmp dmg bonus #2
+	   //var = (((DWORD)0x006A3FB0 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x90\x90\xEB", 3); // nop / jmp dmg bonus #2
 
-	   var = (((DWORD)0x0057F2C7 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\xBF\xFF\xFF\xFF\x0F\x90\x90\x90\xE9\xF4\x01\x00\x00\x90", 14); //patch stat cap to be 0x0FFFFFFF
+	   //var = (((DWORD)0x0057F2C7 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\xBF\xFF\xFF\xFF\x0F\x90\x90\x90\xE9\xF4\x01\x00\x00\x90", 14); //patch stat cap to be 0x0FFFFFFF
 
-	   var = (((DWORD)0x0069A3D1 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\xB8\x60\xEA\x00\x00\x90", 6); //reuse time hack, up to 1 minute
+	   //var = (((DWORD)0x0069A3D1 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\xB8\x60\xEA\x00\x00\x90", 6); //reuse time hack, up to 1 minute
 
 
 	   // Spells BEGIN
@@ -1031,64 +1031,64 @@ void InitHooks()
 	   // var = (((DWORD)0x0064920D - 0x400000) + baseAddress);
 	   //      PatchA((DWORD*)var, "\x10", 1);
 
-	   var = (((DWORD)0x00444158 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90",
-		   12); // Fix max HP cap
+	  // var = (((DWORD)0x00444158 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90",
+		 //  12); // Fix max HP cap
 
-	   var = (((DWORD)0x0045F26E - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\xE9\xB3\x01\x00\x00\x90",
-		   11); // Disable regen ticks // maybe hp
+	  // var = (((DWORD)0x0045F26E - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\xE9\xB3\x01\x00\x00\x90",
+		 //  11); // Disable regen ticks // maybe hp
 
-	  var = (((DWORD)0x0045E376 - 0x400000) + baseAddress);
-	  PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90", 8); // No unconscious pls
+	  //var = (((DWORD)0x0045E376 - 0x400000) + baseAddress);
+	  //PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90", 8); // No unconscious pls
 
-	   var = (((DWORD)0x0045E381 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90", 8); // No unconscious pls
+	  // var = (((DWORD)0x0045E381 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90", 8); // No unconscious pls
 
-	   var = (((DWORD)0x00449E3B - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\xE9\x1B\x01\x00\x00\x90", 13); // HP fix - the real deal
+	  // var = (((DWORD)0x00449E3B - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\xE9\x1B\x01\x00\x00\x90", 13); // HP fix - the real deal
 
-	   var = (((DWORD)0x00449F62 - 0x400000) + baseAddress); // HP fix - the real deal
-	   PatchA((DWORD*)var, "\x90\x90", 2);
-	   var = (((DWORD)0x00449F64 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90",
-		   13); // Fix current HP cap
+	  // var = (((DWORD)0x00449F62 - 0x400000) + baseAddress); // HP fix - the real deal
+	  // PatchA((DWORD*)var, "\x90\x90", 2);
+	  // var = (((DWORD)0x00449F64 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90",
+		 //  13); // Fix current HP cap
 
-	   var = (((DWORD)0x00444308 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xEB\x64",
-		   4); // Fix current mana amounts
+	  // var = (((DWORD)0x00444308 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\xEB\x64",
+		 //  4); // Fix current mana amounts
 
-	   var = (((DWORD)0x00444198 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xEB\x64",
-		   4); // Fix current endur
+	  // var = (((DWORD)0x00444198 - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\xEB\x64",
+		 //  4); // Fix current endur
 
-	   var = (((DWORD)0x0045AE9F - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\xE9\x76\x03\x00\x00\x90",
-		   8); // Fix food/drink spam
+	  // var = (((DWORD)0x0045AE9F - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\xE9\x76\x03\x00\x00\x90",
+		 //  8); // Fix food/drink spam
 
-	   var = (((DWORD)0x0045385D - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90", 30); //hp damage in combat abilities fix
+	  // var = (((DWORD)0x0045385D - 0x400000) + baseAddress);
+	  // PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90", 30); //hp damage in combat abilities fix
 
-	   var = (((DWORD)0x00409776 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
+	   //var = (((DWORD)0x00409776 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
 
-	   var = (((DWORD)0x00409793 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
+	   //var = (((DWORD)0x00409793 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
 
-	   var = (((DWORD)0x004097DC - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
+	   //var = (((DWORD)0x004097DC - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
 
-	   var = (((DWORD)0x00409882 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\xFB", 1); // Monk armor fix
+	   //var = (((DWORD)0x00409882 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\xFB", 1); // Monk armor fix
 
-	   var = (((DWORD)0x004098AD - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
+	   //var = (((DWORD)0x004098AD - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
 
-	   var = (((DWORD)0x00409953 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\xFB", 1); // Monk armor fix
+	   //var = (((DWORD)0x00409953 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\xFB", 1); // Monk armor fix
 
-	   var = (((DWORD)0x00409968 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
+	   //var = (((DWORD)0x00409968 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, "\x05", 1); // Monk armor fix
 
 	  // var = (((DWORD)0x00443631 - 0x400000) + baseAddress);
 	  // PatchA((DWORD*)var, "\xB0\x01\x5E\xC2\x04\x00\x90", 7); // Group marker in a party of 2
@@ -1101,26 +1101,26 @@ void InitHooks()
 	   //PatchA((DWORD*)var, "\x90\x90\x90\x90\x90\x90\xE9\xD0\x00\x90",
 		  // 10); // Nop the gamma slider
 
-	   auto charToBreak = rand();
+	   //auto charToBreak = rand();
 
-	   var = (((DWORD)0x009DD250 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
+	   //var = (((DWORD)0x009DD250 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
 
-	   charToBreak = rand();
-	   var = (((DWORD)0x009DD254 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
+	   //charToBreak = rand();
+	   //var = (((DWORD)0x009DD254 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
 
-	   charToBreak = rand();
-	   var = (((DWORD)0x009DD258 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
+	   //charToBreak = rand();
+	   //var = (((DWORD)0x009DD258 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
 
-	   charToBreak = rand();
-	   var = (((DWORD)0x009DD25C - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
+	   //charToBreak = rand();
+	   //var = (((DWORD)0x009DD25C - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
 
-	   charToBreak = rand();
-	   var = (((DWORD)0x009DD260 - 0x400000) + baseAddress);
-	   PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
+	   //charToBreak = rand();
+	   //var = (((DWORD)0x009DD260 - 0x400000) + baseAddress);
+	   //PatchA((DWORD*)var, (DWORD*)&charToBreak, 4);
 	   HMODULE hkernel32Mod = GetModuleHandle("kernel32.dll");
 	   DWORD gmfadress = (DWORD)GetProcAddress(hkernel32Mod, "GetModuleFileNameA");
 	   EzDetour(gmfadress, GetModuleFileNameA_detour, GetModuleFileNameA_tramp);

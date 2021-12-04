@@ -1063,7 +1063,7 @@ void GenerateSpawnLabel(PMAPSPAWN& pMapSpawn, DWORD Color, DWORD TrackingDist)
 		pLocalPlayer && pLocalPlayer->Data.pSpawn && !pLocalPlayer->Data.pSpawn->GM && pMapSpawn && pMapSpawn->pSpawn && !IsGroupMember(pMapSpawn->pSpawn) && DistanceToSpawn(pLocalPlayer->Data.pSpawn, pMapSpawn->pSpawn) > TrackingDist) {
 		if (pMapSpawn->pMapLabel->Label)
 			free(pMapSpawn->pMapLabel->Label);
-		pMapSpawn->pMapLabel->Label = GenerateSpawnName(pMapSpawn->pSpawn, pMapSpawn->pSpawn->Type == SPAWN_PLAYER ? " " : "Mob");
+		pMapSpawn->pMapLabel->Label = GenerateSpawnName(pMapSpawn->pSpawn, MapNameString);
 	}
 	else
 	{
@@ -1092,7 +1092,9 @@ PMAPLABEL GenerateLabel(PMAPSPAWN pMapSpawn, DWORD Color)
 
 	if (!pLocalPlayer || pLocalPlayer && !pLocalPlayer->Data.pSpawn ||
         pLocalPlayer && pLocalPlayer->Data.pSpawn && !pLocalPlayer->Data.pSpawn->GM && pMapSpawn && pMapSpawn->pSpawn && pMapSpawn->pSpawn->Type != SPAWN_PLAYER && !IsGroupMember(pMapSpawn->pSpawn)) {
-			pLabel->Label = GenerateSpawnName(pMapSpawn->pSpawn, pMapSpawn->pSpawn->Type == SPAWN_PLAYER ? " " : "Mob");
+			pLabel->Label = GenerateSpawnName(pMapSpawn->pSpawn, MapNameString);
+            if (pMapSpawn && pMapSpawn->pSpawn && pMapSpawn->pSpawn->Type == SPAWN_PLAYER)
+                pLabel->Layer = 3;
 	}
 	else
 	{
