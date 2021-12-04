@@ -1360,25 +1360,25 @@ PLUGIN_API VOID InitializeMQ2Labels(VOID)
 
     // Add commands, macro parameters, hooks, etc.
     //EasyClassDetour(CLabel__Draw,CLabelHook,Draw_Detour,VOID,(VOID),Draw_Trampoline);
-    EzDetour(CLabel__Draw,&CLabelHook::Draw_Detour,&CLabelHook::Draw_Trampoline);
-	EzDetour(EQ_Character__Max_HP, &EQCharacter1Hook::MaxHP_Detour, &EQCharacter1Hook::MaxHP_Trampoline);
-	EzDetour(EQ_Character__Cur_HP, &EQCharacter1Hook::CurHP_Detour, &EQCharacter1Hook::CurHP_Trampoline);
-	EzDetour(EQ_Character__Cur_Mana, &EQCharacter1Hook::CurMana_Detour, &EQCharacter1Hook::CurMana_Trampoline);
-	EzDetour(EQ_Character__Max_Mana, &EQCharacter1Hook::MaxMana_Detour, &EQCharacter1Hook::MaxMana_Trampoline);
-	EzDetour(EQ_Character__Cur_Endurance, &EQCharacter1Hook::CurEndurance_Detour, &EQCharacter1Hook::CurEndurance_Trampoline);
-	EzDetour(EQ_Character__Max_Endurance, &EQCharacter1Hook::MaxEndurance_Detour, &EQCharacter1Hook::MaxEndurance_Trampoline);
-	//EzDetour(PlayerPhysics__ClampVelocity, &EQCharacter1Hook::ClampVelocity_Detour, &EQCharacter1Hook::ClampVelocity_Trampoline);
-	EzDetour(EQ_Character__GetUsableClasses, &EQCharacter1Hook::GetUsableClass_Detour, &EQCharacter1Hook::GetUsableClass_Trampoline);
-	EzDetour(EQ_Character__IsSpellcaster, &EQCharacter1Hook::IsSpellcaster_Detour, &EQCharacter1Hook::IsSpellcaster_Trampoline);
-	EzDetour(EQ_Character__IsSpellcaster_2, &EQCharacter1Hook::IsSpellcaster2_Detour, &EQCharacter1Hook::IsSpellcaster2_Trampoline);
-	EzDetour(EQ_Character__IsSpellcaster_3, &EQCharacter1Hook::IsSpellcaster3_Detour, &EQCharacter1Hook::IsSpellcaster3_Trampoline);
-	EzDetour(EQ_Character__CalculateWeight, &EQCharacter1Hook::CalculateWeight_Detour, &EQCharacter1Hook::CalculateWeight_Trampoline);
-	EzDetour(EQ_Spell__GetSpellLevelNeeded, &EQCharacter1Hook::GetSpellLevelNeeded_Detour, &EQCharacter1Hook::GetSpellLevelNeeded_Trampoline);
-	EzDetour(CSpellBookWnd__CanStartMemming, &EQCharacter1Hook::CanStartMem_Detour, &EQCharacter1Hook::CanStartMem_Trampoline);
-    EzDetour(CSidlManager__CreateLabel,&CSidlManagerHook::CreateLabel_Detour,&CSidlManagerHook::CreateLabel_Trampoline);
-	EzDetour(CLabel__Draw, &CLabelHook::Draw_Detour, &CLabelHook::Draw_Trampoline);
-    EzDetour(__GetGaugeValueFromEQ,GetGaugeValueFromEQ_Detour, GetGaugeValueFromEQ_Trampoline);
-	EzDetour(__GetLabelFromEQ, GetLabelFromEQ_Detour, GetLabelFromEQ_Trampoline);
+ //   EzDetour(CLabel__Draw,&CLabelHook::Draw_Detour,&CLabelHook::Draw_Trampoline);
+	//EzDetour(EQ_Character__Max_HP, &EQCharacter1Hook::MaxHP_Detour, &EQCharacter1Hook::MaxHP_Trampoline);
+	//EzDetour(EQ_Character__Cur_HP, &EQCharacter1Hook::CurHP_Detour, &EQCharacter1Hook::CurHP_Trampoline);
+	//EzDetour(EQ_Character__Cur_Mana, &EQCharacter1Hook::CurMana_Detour, &EQCharacter1Hook::CurMana_Trampoline);
+	//EzDetour(EQ_Character__Max_Mana, &EQCharacter1Hook::MaxMana_Detour, &EQCharacter1Hook::MaxMana_Trampoline);
+	//EzDetour(EQ_Character__Cur_Endurance, &EQCharacter1Hook::CurEndurance_Detour, &EQCharacter1Hook::CurEndurance_Trampoline);
+	//EzDetour(EQ_Character__Max_Endurance, &EQCharacter1Hook::MaxEndurance_Detour, &EQCharacter1Hook::MaxEndurance_Trampoline);
+	////EzDetour(PlayerPhysics__ClampVelocity, &EQCharacter1Hook::ClampVelocity_Detour, &EQCharacter1Hook::ClampVelocity_Trampoline);
+	//EzDetour(EQ_Character__GetUsableClasses, &EQCharacter1Hook::GetUsableClass_Detour, &EQCharacter1Hook::GetUsableClass_Trampoline);
+	//EzDetour(EQ_Character__IsSpellcaster, &EQCharacter1Hook::IsSpellcaster_Detour, &EQCharacter1Hook::IsSpellcaster_Trampoline);
+	//EzDetour(EQ_Character__IsSpellcaster_2, &EQCharacter1Hook::IsSpellcaster2_Detour, &EQCharacter1Hook::IsSpellcaster2_Trampoline);
+	//EzDetour(EQ_Character__IsSpellcaster_3, &EQCharacter1Hook::IsSpellcaster3_Detour, &EQCharacter1Hook::IsSpellcaster3_Trampoline);
+	//EzDetour(EQ_Character__CalculateWeight, &EQCharacter1Hook::CalculateWeight_Detour, &EQCharacter1Hook::CalculateWeight_Trampoline);
+	//EzDetour(EQ_Spell__GetSpellLevelNeeded, &EQCharacter1Hook::GetSpellLevelNeeded_Detour, &EQCharacter1Hook::GetSpellLevelNeeded_Trampoline);
+	//EzDetour(CSpellBookWnd__CanStartMemming, &EQCharacter1Hook::CanStartMem_Detour, &EQCharacter1Hook::CanStartMem_Trampoline);
+ //   EzDetour(CSidlManager__CreateLabel,&CSidlManagerHook::CreateLabel_Detour,&CSidlManagerHook::CreateLabel_Trampoline);
+	//EzDetour(CLabel__Draw, &CLabelHook::Draw_Detour, &CLabelHook::Draw_Trampoline);
+ //   EzDetour(__GetGaugeValueFromEQ,GetGaugeValueFromEQ_Detour, GetGaugeValueFromEQ_Trampoline);
+	//EzDetour(__GetLabelFromEQ, GetLabelFromEQ_Detour, GetLabelFromEQ_Trampoline);
 }
 
 // Called once, when the plugin is to shutdown
