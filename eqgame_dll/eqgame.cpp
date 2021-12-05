@@ -915,7 +915,16 @@ void InitHooks()
 	   var = (((DWORD)0x004EEAAB - 0x400000) + baseAddress);
 	   PatchA((DWORD*)var, (void*)&varToPatch, 4);
 	   //basedata as spell CRC end
-
+	   var = (((DWORD)0x007E22CE - 0x400000) + baseAddress); // push "Theater", 0x64 preceeds these bytes, 0xCE is start of dword ptr
+	   DWORD byteAddrForPush = (((DWORD)0x015D95C4 - 0x400000) + baseAddress);
+	   const char* bytearray = (const char*)byteAddrForPush;
+	   char c[4];
+	   memcpy(&c, &byteAddrForPush, 4);
+	   PatchA((DWORD*)byteAddrForPush, "New Freeport\x00", 13);
+	   PatchA((DWORD*)var, (char*)&c[0], 1);
+	   PatchA((DWORD*)(var + 1), (char*)&c[1], 1);
+	   PatchA((DWORD*)(var + 2), (char*)&c[2], 1);
+	   PatchA((DWORD*)(var + 3), (char*)&c[3], 1);
 
 	   //var = (((DWORD)0x0044410C - 0x400000) + baseAddress);
 	   //PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Remove heroic Stamina
