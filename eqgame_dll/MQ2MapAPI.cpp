@@ -775,9 +775,9 @@ bool MapSelectTarget()
     if (!pCurrentMapLabel)
         return false;
 
-	if (!pLocalPlayer || pLocalPlayer && !pLocalPlayer->Data.pSpawn ||
-        pLocalPlayer && pLocalPlayer->Data.pSpawn && !pLocalPlayer->Data.pSpawn->GM)
-       return false;
+	//if (!pLocalPlayer || pLocalPlayer && !pLocalPlayer->Data.pSpawn ||
+ //       pLocalPlayer && pLocalPlayer->Data.pSpawn && !pLocalPlayer->Data.pSpawn->GM)
+ //      return false;
 
 
 

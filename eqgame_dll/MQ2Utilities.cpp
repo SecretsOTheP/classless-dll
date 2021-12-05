@@ -676,6 +676,10 @@ DWORD GetZoneID(PCHAR ZoneShortName)
     PZONELIST pZone = NULL;
     if (!ppWorldData | !pWorldData) return -1;
     for (int nIndex=0; nIndex <= MAX_ZONES; nIndex++) {
+
+        if (nIndex >= MAX_ZONES)
+            break;
+
         pZone = ((PWORLDDATA)pWorldData)->ZoneArray[nIndex];
         if(pZone )
             if (!_stricmp(pZone->ShortName,ZoneShortName)) {
