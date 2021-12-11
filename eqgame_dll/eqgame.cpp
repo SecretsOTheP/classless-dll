@@ -500,7 +500,7 @@ unsigned char __cdecl SendExe_Detour(DWORD con)
 	return SendExe_Tramp(con);
 }
 
-typedef struct BankRequest_Struct
+struct BankRequest_Struct
 {
 	uint8_t requestType;
 	uint32_t entityid;
@@ -925,6 +925,17 @@ void InitHooks()
 	   PatchA((DWORD*)(var + 1), (char*)&c[1], 1);
 	   PatchA((DWORD*)(var + 2), (char*)&c[2], 1);
 	   PatchA((DWORD*)(var + 3), (char*)&c[3], 1);
+
+	   /*
+	   * Description="No Mount Models"
+		Version="2013.05.11"
+		Address0=58DE28
+		Normal0="B0 01"
+		Crack0="32 C0"
+	   */
+
+		var = (((DWORD)0x0058DE28 - 0x400000) + baseAddress);
+		PatchA((DWORD*)var, "\x32\xC0", 2); // Mount docrack
 
 	   //var = (((DWORD)0x0044410C - 0x400000) + baseAddress);
 	   //PatchA((DWORD*)var, "\x90\x90\xEB", 3); // Remove heroic Stamina
